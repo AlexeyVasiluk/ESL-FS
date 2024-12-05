@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Esl-Club</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<div class="header">
+    <h1 class="logo"><a href="index.html">ESL club</a></h1>
+    <div class="menu" id="menu">
+        <a href="vocabulary.html" class="accordion-header">Vocabulary</a>
+        <a href="grammar.html" class="accordion-header">Grammar</a>
+        <a href="listening.html" class="accordion-header">Listening</a>
+        <a href="couch.html" class="accordion-header">Lessons</a>
+        <a href="job.html" class="accordion-header">Job</a>
+    </div>
+</div>
+<div class="content-wrapper">
+    <div class="page-wrapper">
+        <h1>LESSON 1 - In the Airport</h1>
+        <div class="lesson-content">
+            <ul>
+                <li>word1</li>
+                <li>word2</li>
+                <li>word3</li>
+                <li>word4</li>
+                <li>word5</li>
+                <li>word6</li>
+                <li>word7</li>
+                <li>word8</li>
+                <li>word9</li>
+                <li>word10</li>
+            </ul>
+        </div>
+
+        <audio controls>
+            <source src="horse.ogg" type="audio/ogg">
+            <source src="horse.mp3" type="audio/mpeg">
+            Your browser does not support the audio tag.
+        </audio>
+
+        <div class="transcript-text">розділи англійські слова які є значенням ключа - translation на три групи - дуже часто вживані в американській англійській, рідше вживані і дуже рідко вживані:</div>
+
+        <div class="words-training content">
+            <button id="lesson-1-words" class="words-button">LESSON1<span></span></button>
+            <div id="wrapper">
+                <button class="end-game">End Game</button>
+                <div id="total_question"></div>
+                <span id="loader">Loading...</span>
+                <span id="word"></span>
+                <input type="text" id="guessInput" autofocus>
+                <button id="checkAnswer">Check Answer</button>
+            </div>
+            <div id="count"></div>
+            <div style="height: 110px;">
+                <div id="makeSentence" class="hide">Складіть речення з набору слів:</div>
+                <div id="originalWords"></div>
+                <div id="userVersion"></div>
+                <div id="errorInSentence" class="hide" style="color: red;">Нажаль невірно, спробуйте ще раз!</div>
+            </div>
+            <hr>
+            <div id="stats"></div>
+            <div id="winModal" class="modal hidemodal">
+                <div class="modal-content">
+                    <h1>Congratulation! You win!</h1>
+                </div>
+            </div>
+        </div>
+        <button>Clear Preogress</button>
+        <button>NEXT LESSON</button>
+    </div>
+</div>
+<script type="module" src="scripts/lesson1.js"></script>
+</body>
+</html>

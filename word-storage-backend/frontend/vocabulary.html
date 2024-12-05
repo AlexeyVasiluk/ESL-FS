@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Esl-Club</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+
+<div class="header">
+    <h1 class="logo"><a href="index.html">ESL club</a></h1>
+    <div class="menu" id="menu">
+        <a href="vocabulary.html" class="accordion-header">Vocabulary</a>
+        <a href="grammar.html" class="accordion-header">Grammar</a>
+        <a href="listening.html" class="accordion-header">Listening</a>
+        <a href="couch.html" class="accordion-header">Lessons</a>
+        <a href="job.html" class="accordion-header">Job</a>
+        <button id="clear">Reset</button>
+    </div>
+    <div class="help">HELP</div>
+    <div id="rules" class="rules nonactive">
+        <p>Вибери набір слів, наприклад - ДІЄСЛОВА <i>(зеленим відображено к-ть вивчених слів, червоним - що
+            ще залишилися для вивчення).</i></p>
+        <p style="font-weight: bolder; margin-bottom: 0;">Правила максимально прості:</p>
+        <ul>
+            <li>поруч з українським словом вписуй англійський переклад і тисни ENTER або клавішу для
+                перевірки "Check answer";
+            </li>
+            <li>якщо ти ввів неправильну відповідь - система підкаже тобі правильне слово і запропонує скласти речення
+                з використанням цього слова в контексті для кращого запам'ятовування;
+            </li>
+        </ul>
+        <p>Якщо втомився чи хочеш обрати іншу групу слів - тисни END GAME -> твій прогрес буде збережено і
+            ти зможеш повернутися до нього пізніше.</p>
+    </div>
+</div>
+
+<div class="words-by-themes-list">
+    <div id="vocabulary-section" class="accordion-section active">
+        <div class="accordion-header" id="vocabulary-header">Words by themes</div>
+        <div class="accordion-content base" id="vocabulary-content">
+            <a id="food" class="words-button">Food<span></span></a>
+            <a id="communication" class="words-button">Communication<span></span></a>
+            <a id="emotion" class="words-button">Emotion<span></span></a>
+            <a id="family_ua" class="words-button">Family<span></span></a>
+            <a id="ecology_ua" class="words-button">Ecology<span></span></a>
+            <a id="house" class="words-button">House<span></span></a>
+            <a id="human" class="words-button">Human<span></span></a>
+            <a id="jobs" class="words-button">Jobs<span></span></a>
+            <a id="disasters_ua" class="words-button">Disasters<span></span></a>
+            <a id="cosmos_ua" class="words-button">Space<span></span></a>
+            <a id="natureWeather" class="words-button">Nature<span></span></a>
+            <a id="supernatural_ua" class="words-button">Supernatural<span></span></a>
+            <a id="time" class="words-button">Time<span></span></a>
+            <a id="transport" class="words-button">Transport<span></span></a>
+            <a id="weather_ua" class="words-button">Weather<span></span></a>
+            <hr>
+            <a id="itdaily_part1" class="words-button">IT-1<span></span></a>
+            <a id="itdaily_part2" class="words-button">IT-2<span></span></a>
+            <a id="itdaily_part3" class="words-button">IT-3<span></span></a>
+            <a id="itdaily_part4" class="words-button">IT-4<span></span></a>
+            <a id="itdaily_part5" class="words-button">IT-5<span></span></a>
+            <a id="itdaily_part6" class="words-button">IT-6<span></span></a>
+            <a id="itdaily_part7" class="words-button">IT-7<span></span></a>
+            <a id="itdaily_part8" class="words-button">IT-8<span></span></a>
+            <a id="itdaily_part9" class="words-button">IT-9<span></span></a>
+            <a id="itdaily_part10" class="words-button">IT-10<span></span></a>
+            <a id="itdaily_part11" class="words-button">IT-11<span></span></a>
+            <hr>
+
+            <a id="verbs_moving" class="words-button">Moving verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="verbs_communication" class="words-button">Communication verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="verbs_everyday" class="words-button">Everyday verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="verbs_social" class="words-button">Social verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="verbs_work" class="words-button">Work verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="verbs_feels" class="words-button">Feeling verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="verbs_think" class="words-button">Thinking verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="verbs_fight" class="words-button">Fighting verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="verbs_tech" class="words-button">Tech verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="verb_state" class="words-button">State verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+            <a id="irrverb" class="words-button">Irregular verbs<span> <span class="green">0</span> / <span class="red">0</span></span></a>
+
+            <hr>
+            <a id="adjective_1" class="words-button">Adjective-1<span></span></a>
+            <a id="adjective_2" class="words-button">Adjective-2<span></span></a>
+            <a id="adjective_3" class="words-button">Adjective-3<span></span></a>
+            <a id="adjective_4" class="words-button">Adjective-4<span></span></a>
+            <a id="adjective_5" class="words-button">Adjective-5<span></span></a>
+            <a id="adjective_6" class="words-button">Adjective-6<span></span></a>
+            <a id="adjective_7" class="words-button">Adjective-7<span></span></a>
+            <a id="adjective_8" class="words-button">Adjective-8<span></span></a>
+            <a id="adjective_9" class="words-button">Adjective-9<span></span></a>
+            <a id="adjective_10" class="words-button">Adjective-10<span></span></a>
+            <a id="adjective_11" class="words-button">Adjective-11<span></span></a>
+            <a id="adjective_12" class="words-button">Adjective-12<span></span></a>
+            <a id="adjective_13" class="words-button">Adjective-13<span></span></a>
+            <a id="adjective_14" class="words-button">Adjective-14<span></span></a>
+            <a id="adjective_15" class="words-button">Adjective-15<span></span></a>
+            <a id="adjective_16" class="words-button">Adjective-16<span></span></a>
+            <hr>
+            <a id="adverbs_1" class="words-button">Adverbs-1<span></span></a>
+            <a id="adverbs_2" class="words-button">Adverbs-2<span></span></a>
+            <a id="adverbs_3" class="words-button">Adverbs-3<span></span></a>
+            <a id="adverbs_4" class="words-button">Adverbs-4<span></span></a>
+            <a id="adverbs_5" class="words-button">Adverbs-5<span></span></a>
+            <a id="adverbs_6" class="words-button">Adverbs-6<span></span></a>
+        </div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="content">
+        <div id="wrapper">
+            <div class="btn-block">
+                <button class="end-game">End Game</button>
+                <button id="checkAnswer">Check Answer</button>
+
+            </div>
+            <div id="total_question"></div>
+            <div id="count"></div>
+<!--            <span id="loader">Loading...</span>-->
+            <span id="word"></span>
+            <input type="text" id="guessInput" autofocus autocomplete="off">
+        </div>
+
+        <div style="height: 180px; text-align: center;">
+            <div id="makeSentence" class="hide">Складіть речення з набору слів:</div>
+            <div id="originalWords"></div>
+            <div id="userVersion"></div>
+            <div id="errorInSentence" class="hide" style="color: red; width: 100%;">Нажаль невірно, вірна відповідь нижче.</div>
+        </div>
+        <div id="stats"></div>
+        <div id="winModal" class="modal hidemodal">
+            <div class="modal-content">
+                <h1>Congratulation! You win!</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="scripts/script.js"></script>
+</body>
+</html>
