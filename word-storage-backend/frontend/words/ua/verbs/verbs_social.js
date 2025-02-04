@@ -28,7 +28,7 @@ export const verbs_social = [
     {word: "накопичувати", translation: "accumulate", guessed: false, example: "It's important to accumulate savings consistently"},
     {word: "залежати", translation: "depend", guessed: false, example: "Project success depends on communication"},
     {word: "відмовлятися від когось", translation: "refuse", guessed: false, example: "Heartbreaking to see someone refuse a loyal pet"},
-    {word: "покинути намір", translation: "abandon", guessed: false, example: "The explorers had to abandon their mission due to weather"},
+    {word: "покинути", translation: "abandon", guessed: false, example: "The explorers had to abandon their mission due to weather"},
     {word: "залучати", translation: "involve", guessed: false, example: "Volunteer work may involve helping with events"},
     {word: "приєднатися", translation: "join", guessed: false, example: "She will join a team for the project"},
     {word: "об’єднатися", translation: "unite", guessed: false, example: "They will unite their efforts for a common goal"}
