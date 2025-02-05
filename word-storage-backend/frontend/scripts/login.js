@@ -1,3 +1,6 @@
+// Оголошуємо глобальну змінну, за замовчуванням режим логіну
+let isRegister = false; // false = логін, true = реєстрація
+
 document.addEventListener('DOMContentLoaded', () => {
     // Простенька перевірка наявності куки "token"
     checkAuthStatus();
@@ -13,9 +16,14 @@ function setupAuthForm() {
     const toggleBtn = document.getElementById('toggle-btn');
     const messageP = document.getElementById('message');
 
-    let isRegister = false; // за замовчуванням режим реєстрації
+    // Встановлюємо початковий стан (режим логіну)
+    formTitle.textContent = 'Логін';
+    submitBtn.textContent = 'Увійти';
+    usernameField.style.display = 'none';
+    toggleBtn.textContent = 'Немає акаунта? Зареєструйтесь тут';
+    messageP.textContent = '';
 
-    // Перемикання між режимами реєстрації та логіну
+    // Обробка натискання кнопки перемикання режимів
     toggleBtn.addEventListener('click', () => {
         isRegister = !isRegister;
         if (isRegister) {
@@ -32,7 +40,7 @@ function setupAuthForm() {
         messageP.textContent = '';
     });
 
-    // Обробка відправки форми (реєстрація/логін)
+    // Обробка відправки форми (логін/реєстрація)
     authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         messageP.textContent = '';
@@ -60,7 +68,8 @@ function setupAuthForm() {
             });
             const resData = await response.json();
             if (!response.ok) {
-                const errorMsg = resData.error || (resData.errors && resData.errors[0].msg) || 'Щось пішло не так';
+                const errorMsg =
+                    resData.error || (resData.errors && resData.errors[0].msg) || 'Щось пішло не так';
                 throw new Error(errorMsg);
             }
             // Після успішного логіну/реєстрації сервер встановлює куку "token"
@@ -78,7 +87,6 @@ function checkAuthStatus() {
     // Простенька перевірка: шукаємо "token=" у document.cookie
     if (document.cookie && document.cookie.indexOf('token=') !== -1) {
         // Якщо кука є, вважаємо, що користувач авторизований
-        // Якщо знаходимося на login.html, перенаправляємо на /vocabulary
         if (window.location.pathname === '/login.html') {
             window.location.href = '/vocabulary';
         } else {
@@ -101,34 +109,21 @@ function displayLogoutButton() {
     if (toggleBtn) {
         toggleBtn.style.display = 'none';
     }
-    // Змінюємо заголовок (наприклад, на "Вітаємо!")
+    // Змінюємо заголовок
     const formTitle = document.getElementById('form-title');
     if (formTitle) {
         formTitle.textContent = 'Вітаємо!';
     }
-    // Якщо кнопки "Вийти" ще немає, створюємо її
-    if (!document.getElementById('logout-btn')) {
-        const logoutBtn = document.createElement('button');
-        logoutBtn.id = 'logout-btn';
-        logoutBtn.textContent = 'Вийти';
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                const res = await fetch('http://localhost:5000/api/auth/logout', {
-                    method: 'POST',
-                    credentials: 'include'
-                });
-                if (res.ok) {
-                    window.location.href = '/login.html';
-                } else {
-                    console.error('Logout failed');
-                }
-            } catch (error) {
-                console.error('Error during logout:', error);
-            }
-        });
-        const container = document.querySelector('.header');
-        container.appendChild(logoutBtn);
+    // Очищаємо повідомлення
+    const messageP = document.getElementById('message');
+    if (messageP) {
+        messageP.textContent = '';
     }
+
+
+
+
+
 }
 
 function showLoginForm() {
@@ -142,10 +137,15 @@ function showLoginForm() {
     if (toggleBtn) {
         toggleBtn.style.display = 'block';
     }
-    // Встановлюємо заголовок форми (наприклад, "Реєстрація")
+    // Встановлюємо заголовок форми як "Логін" (оскільки за замовчуванням ми використовуємо логін)
     const formTitle = document.getElementById('form-title');
     if (formTitle) {
-        formTitle.textContent = 'Реєстрація';
+        formTitle.textContent = 'Логін';
+    }
+    // Очищаємо повідомлення
+    const messageP = document.getElementById('message');
+    if (messageP) {
+        messageP.textContent = '';
     }
     // Видаляємо кнопку "Вийти", якщо вона існує
     const logoutBtn = document.getElementById('logout-btn');

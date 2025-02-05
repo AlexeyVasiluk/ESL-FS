@@ -436,3 +436,28 @@ const clearButton = document.getElementById('clear');
 if (clearButton) {
     clearButton.addEventListener('click', clearGuessedWords);
 }
+
+// Якщо кнопки "Вийти" ще немає, створюємо її
+if (!document.getElementById('logout-btn')) {
+    const logoutBtn = document.createElement('button');
+    logoutBtn.id = 'logout-btn';
+    logoutBtn.textContent = 'Вийти';
+    logoutBtn.addEventListener('click', async () => {
+        try {
+            const res = await fetch('http://localhost:5000/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
+            if (res.ok) {
+                window.location.href = '/';
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    });
+    
+    const container = document.querySelector('.header');
+    container.appendChild(logoutBtn);
+}
