@@ -30,13 +30,16 @@ router.post(
             await user.save();
 
             const payload = { user: { id: user.id } };
+            // Після успішного логіну/реєстрації (наприклад, у маршруті /api/auth/login):
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
-                // Встановлюємо токен у cookie
+                // Встановлюємо токен у cookie з потрібними параметрами:
                 res.cookie('token', token, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production', // використовувати HTTPS у продакшені
-                    sameSite: 'strict'
+                    httpOnly: false, // або false, якщо потрібно читати куку через JS (але менш безпечно)
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'strict',
+                    path: '/',          // кука буде доступна на всіх сторінках
+                    maxAge: 3600000     // наприклад, 1 година (3600000 мс)
                 });
                 res.json({ token });
             });
@@ -75,9 +78,11 @@ router.post(
                 if (err) throw err;
                 // Встановлюємо токен у cookie
                 res.cookie('token', token, {
-                    httpOnly: true,
+                    httpOnly: false, // або false, якщо потрібно читати куку через JS (але менш безпечно)
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict'
+                    sameSite: 'strict',
+                    path: '/',          // кука буде доступна на всіх сторінках
+                    maxAge: 3600000     // наприклад, 1 година (3600000 мс)
                 });
                 res.json({ token });
             });
@@ -87,5 +92,10 @@ router.post(
         }
     }
 );
+
+router.post('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.json({ msg: 'Logged out successfully' });
+});
 
 module.exports = router;

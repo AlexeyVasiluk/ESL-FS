@@ -13,7 +13,8 @@ module.exports = function(req, res, next) {
         token = req.cookies.token;
     }
     if (!token) {
-        return res.status(401).json({ msg: 'No token, authorization denied' });
+        return res.redirect('/login.html');
+        // return res.status(401).json({ msg: 'No token, authorization denied' });
     }
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
@@ -23,3 +24,4 @@ module.exports = function(req, res, next) {
         res.status(401).json({ msg: 'Token is not valid' });
     }
 };
+

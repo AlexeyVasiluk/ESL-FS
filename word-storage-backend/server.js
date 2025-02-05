@@ -51,6 +51,14 @@ app.get('/api/words', async (req, res) => {
     }
 });
 
+app.get('/vocabulary.html', (req, res) => {
+    res.redirect('/login.html');
+});
+
+app.get('/vocabulary', (req, res) => {
+    res.redirect('/login.html');
+});
+
 // Отримання прогресу користувача
 app.get('/api/progress', async (req, res) => {
     const { userId } = req.query;
@@ -143,6 +151,11 @@ app.use((req, res, next) => {
         return res.status(401).send('Unauthorized');
     }
     next();
+});
+
+// Захищений маршрут для перевірки авторизації
+app.get('/api/protected', auth, (req, res) => {
+    res.json({ msg: "Authorized", user: req.user });
 });
 
 // Обслуговування статичних файлів для фронтенду
