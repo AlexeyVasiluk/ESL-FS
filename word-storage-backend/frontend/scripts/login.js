@@ -84,6 +84,7 @@ function setupAuthForm() {
 }
 
 function checkAuthStatus() {
+    console.log('checkAuthStatus викликано');
     // Простенька перевірка: шукаємо "token=" у document.cookie
     if (document.cookie && document.cookie.indexOf('token=') !== -1) {
         // Якщо кука є, вважаємо, що користувач авторизований

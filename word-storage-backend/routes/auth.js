@@ -22,18 +22,20 @@ router.post(
         }
         const { username, email, password } = req.body;
         try {
+            // Перевірка, чи існує користувач з таким email
             let user = await User.findOne({ email });
             if (user) {
                 return res.status(400).json({ error: 'User already exists' });
             }
+            // Створюємо користувача
             user = new User({ username, email, password });
             await user.save();
 
-            const payload = { user: { id: user.id } };
-            // Після успішного логіну/реєстрації (наприклад, у маршруті /api/auth/login):
+            const payload = { user: { id: user._id } };
+
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
-                // Встановлюємо токен у cookie з потрібними параметрами:
+                // Встановлюємо куку з токеном
                 res.cookie('token', token, {
                     httpOnly: false, // або false, якщо потрібно читати куку через JS (але менш безпечно)
                     secure: process.env.NODE_ENV === 'production',
@@ -73,7 +75,7 @@ router.post(
                 return res.status(400).json({ error: 'Invalid credentials' });
             }
 
-            const payload = { user: { id: user.id } };
+            const payload = { user: { id: user._id } };
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
                 // Встановлюємо токен у cookie

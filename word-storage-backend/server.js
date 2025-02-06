@@ -31,10 +31,20 @@ app.use('/api/auth', authRoutes);
 
 // Приклад захищеного маршруту
 const auth = require('./middleware/auth');
+
 // Protected route for vocabulary.html
 app.get('/vocabulary', auth, (req, res) => {
     res.sendFile(path.join(__dirname, 'private', 'vocabulary.html'));
 });
+app.get('/vocabulary.html', (req, res) => {
+    res.redirect('/login.html');
+});
+
+// app.get('/vocabulary', (req, res) => {
+//     res.redirect('/login.html');
+// });
+
+
 
 // API ендпоінти (наприклад, отримання слів)
 app.get('/api/words', async (req, res) => {
@@ -51,22 +61,26 @@ app.get('/api/words', async (req, res) => {
     }
 });
 
-app.get('/vocabulary.html', (req, res) => {
-    res.redirect('/login.html');
-});
-
-app.get('/vocabulary', (req, res) => {
-    res.redirect('/login.html');
-});
 
 // Отримання прогресу користувача
-app.get('/api/progress', async (req, res) => {
-    const { userId } = req.query;
-    if (!userId) {
-        return res.status(400).json({ error: 'User ID is required' });
-    }
+// app.get('/api/progress', async (req, res) => {
+//     const { userId } = req.query;
+//     if (!userId) {
+//         return res.status(400).json({ error: 'User ID is required' });
+//     }
+//     try {
+//         const progress = await UserProgress.find({ userId });
+//         res.json(progress);
+//     } catch (error) {
+//         console.error('Error fetching progress:', error);
+//         res.status(500).json({ error: 'Failed to fetch progress' });
+//     }
+// });
+// Захищений маршрут для отримання прогресу користувача
+app.get('/api/progress', auth, async (req, res) => {
     try {
-        const progress = await UserProgress.find({ userId });
+        // Використовуємо req.user.id, встановлений auth middleware
+        const progress = await UserProgress.find({ userId: req.user.id });
         res.json(progress);
     } catch (error) {
         console.error('Error fetching progress:', error);
@@ -74,42 +88,61 @@ app.get('/api/progress', async (req, res) => {
     }
 });
 
-app.get('/api/category-stats', async (req, res) => {
+
+
+// Захищений маршрут для отримання статистики за категоріями для поточного користувача
+app.get('/api/category-stats', auth, async (req, res) => {
     try {
-        const stats = await Word.aggregate([
+        const stats = await UserProgress.aggregate([
+            // Фільтруємо записи для залогіненого користувача з статусом "guessed"
+            { $match: { userId: req.user.id, status: "guessed" } },
+            // Зливаємо (join) з колекцією "words", щоб отримати дані про слово
+            {
+                $lookup: {
+                    from: "words", // назва колекції з документами слів
+                    localField: "wordId",
+                    foreignField: "_id",
+                    as: "word"
+                }
+            },
+            // Оскільки результат lookup повертає масив, розгортання поля "word"
+            { $unwind: "$word" },
+            // Групуємо за категорією і підраховуємо кількість вгаданих слів
             {
                 $group: {
-                    _id: "$category",
-                    total: { $sum: 1 },
-                    guessed: { $sum: { $cond: ["$guessed", 1, 0] } }
+                    _id: "$word.category",
+                    guessedCount: { $sum: 1 }
                 }
             }
         ]);
         res.json(stats);
     } catch (error) {
-        console.error('Error fetching category stats:', error);
-        res.status(500).json({ error: 'Failed to fetch category stats' });
+        console.error("Error fetching category stats:", error);
+        res.status(500).json({ error: "Failed to fetch category stats" });
     }
 });
 
-// Оновлення прогресу користувача
-app.post('/api/progress', async (req, res) => {
-    const { userId, wordId, status } = req.body;
-    if (!userId || !wordId) {
-        return res.status(400).json({ error: 'User ID and Word ID are required' });
+
+// Додаємо auth middleware до маршруту, щоб перевірити токен і встановити req.user
+app.post('/api/progress', auth, async (req, res) => {
+    const { wordId, status } = req.body;
+    if (!wordId) {
+        return res.status(400).json({ error: 'Word ID is required' });
     }
     try {
         const updatedProgress = await UserProgress.findOneAndUpdate(
-            { userId, wordId },
+            { userId: req.user.id, wordId },
             { status },
             { upsert: true, new: true }
         );
+        console.log('Updated progress record:', updatedProgress);  // Додано логування
         res.json(updatedProgress);
     } catch (error) {
         console.error('Error updating progress:', error);
         res.status(500).json({ error: 'Failed to update progress' });
     }
 });
+
 
 // Оновлення статусу слова
 app.patch('/api/words/:id', async (req, res) => {
