@@ -186,15 +186,31 @@ app.patch('/api/words/:id', async (req, res) => {
 // Оновлення всіх слів: guessed = false
 // Захищений маршрут для очищення особистого прогресу користувача
 // Захищений маршрут для очищення прогресу користувача
+// app.patch('/api/clear-progress', auth, async (req, res) => {
+//     try {
+//         console.log("Clear progress route hit. User ID:", req.user.id);
+//         const result = await UserProgress.updateMany(
+//             { userId: req.user.id, status: "guessed" },
+//             { $set: { status: "false" } } // або { status: "not_guessed" }
+//         );
+//         console.log("Clear progress result:", result);
+//         res.json({ message: 'Your progress has been cleared', modifiedCount: result.modifiedCount });
+//     } catch (error) {
+//         console.error('Error clearing user progress:', error);
+//         res.status(500).json({ error: 'Failed to clear user progress' });
+//     }
+// });
+// Захищений маршрут для очищення прогресу користувача (видалення записів)
 app.patch('/api/clear-progress', auth, async (req, res) => {
     try {
         console.log("Clear progress route hit. User ID:", req.user.id);
-        const result = await UserProgress.updateMany(
-            { userId: req.user.id, status: "guessed" },
-            { $set: { status: "false" } } // або { status: "not_guessed" }
-        );
+        // Видаляємо всі записи для поточного користувача, де статус "guessed"
+        const result = await UserProgress.deleteMany({
+            userId: req.user.id,
+            status: "guessed"
+        });
         console.log("Clear progress result:", result);
-        res.json({ message: 'Your progress has been cleared', modifiedCount: result.modifiedCount });
+        res.json({ message: 'Your progress has been cleared', deletedCount: result.deletedCount });
     } catch (error) {
         console.error('Error clearing user progress:', error);
         res.status(500).json({ error: 'Failed to clear user progress' });
