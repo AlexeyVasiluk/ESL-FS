@@ -106,14 +106,12 @@ const saveProgress = async (wordId, guessed) => {
     }
 };
 
-
 buttonsArray.forEach((button) => {
     button.addEventListener('click', async () => {
         const category = button.id;
         await chooseWordsArray(category);
     });
 });
-
 
 function createEventListenerForButton(buttonId) {
     return () => {
@@ -441,22 +439,29 @@ function updateClassBasedOnWidth() {
 
 updateClassBasedOnWidth();
 
-const clearGuessedWords = async () => {
+const clearUserProgress = async () => {
     try {
-        const response = await fetch(`http://localhost:5000/api/clear-guessed`, {
+        const response = await fetch('http://localhost:5000/api/clear-progress', {
             method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
+            credentials: 'include', // надсилання куки для авторизації
+            headers: { 'Content-Type': 'application/json' }
         });
-        if (!response.ok) throw new Error(`Failed to clear guessed words (${response.status})`);
+        if (!response.ok) {
+            throw new Error(`Failed to clear progress: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data.message, 'Modified count:', data.modifiedCount);
+        // Оновлюємо UI, наприклад, статистику категорій
+        updateCategoryStats();
     } catch (error) {
-        console.error('Error resetting guessed words:', error);
+        console.error('Error clearing user progress:', error);
     }
 };
 
 // Додаємо подію для кнопки
-const clearButton = document.getElementById('clear');
-if (clearButton) {
-    clearButton.addEventListener('click', clearGuessedWords);
+const clearProgressButton = document.getElementById('clear-progress');
+if (clearProgressButton) {
+    clearProgressButton.addEventListener('click', clearUserProgress);
 }
 
 // Якщо кнопки "Вийти" ще немає, створюємо її

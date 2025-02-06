@@ -44,8 +44,6 @@ app.get('/vocabulary.html', (req, res) => {
 //     res.redirect('/login.html');
 // });
 
-
-
 // API ендпоінти (наприклад, отримання слів)
 app.get('/api/words', async (req, res) => {
     try {
@@ -60,7 +58,6 @@ app.get('/api/words', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch words' });
     }
 });
-
 
 // Отримання прогресу користувача
 // app.get('/api/progress', async (req, res) => {
@@ -88,14 +85,15 @@ app.get('/api/progress', auth, async (req, res) => {
     }
 });
 
-
 app.get('/api/category-stats', auth, async (req, res) => {
     try {
-        // Якщо userId зберігається як рядок, не перетворюємо його
+        // Оскільки userId зберігається як рядок, використовуйте його без перетворення:
+        const userId = req.user.id; // Рядок
+
         const stats = await Word.aggregate([
             {
                 $lookup: {
-                    from: "userprogresses", // Переконайтеся, що назва колекції правильна
+                    from: "userprogresses", // використовується правильна назва колекції
                     let: { wordId: "$_id" },
                     pipeline: [
                         {
@@ -103,9 +101,10 @@ app.get('/api/category-stats', auth, async (req, res) => {
                                 $expr: {
                                     $and: [
                                         { $eq: ["$wordId", "$$wordId"] },
-                                        { $eq: ["$userId", req.user.id] } // Порівняння як рядків
+                                        { $eq: ["$userId", userId] }  // порівнюємо як рядки
                                     ]
-                                }
+                                },
+                                status: "guessed" // фільтруємо лише записи, де статус рівний "guessed"
                             }
                         }
                     ],
@@ -131,6 +130,7 @@ app.get('/api/category-stats', auth, async (req, res) => {
                 }
             }
         ]);
+
         console.log("Category stats:", stats);
         res.json(stats);
     } catch (error) {
@@ -138,9 +138,6 @@ app.get('/api/category-stats', auth, async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch category stats' });
     }
 });
-
-
-
 
 
 // Додаємо auth middleware до маршруту, щоб перевірити токен і встановити req.user
@@ -162,7 +159,6 @@ app.post('/api/progress', auth, async (req, res) => {
         res.status(500).json({ error: 'Failed to update progress' });
     }
 });
-
 
 // Оновлення статусу слова
 app.patch('/api/words/:id', async (req, res) => {
@@ -188,15 +184,23 @@ app.patch('/api/words/:id', async (req, res) => {
 });
 
 // Оновлення всіх слів: guessed = false
-app.patch('/api/clear-guessed', async (req, res) => {
+// Захищений маршрут для очищення особистого прогресу користувача
+// Захищений маршрут для очищення прогресу користувача
+app.patch('/api/clear-progress', auth, async (req, res) => {
     try {
-        const result = await Word.updateMany({ guessed: true }, { $set: { guessed: false } });
-        res.json({ message: 'All guessed words have been reset to false', modifiedCount: result.modifiedCount });
+        console.log("Clear progress route hit. User ID:", req.user.id);
+        const result = await UserProgress.updateMany(
+            { userId: req.user.id, status: "guessed" },
+            { $set: { status: "false" } } // або { status: "not_guessed" }
+        );
+        console.log("Clear progress result:", result);
+        res.json({ message: 'Your progress has been cleared', modifiedCount: result.modifiedCount });
     } catch (error) {
-        console.error('Error resetting guessed words:', error);
-        res.status(500).json({ error: 'Failed to reset guessed words' });
+        console.error('Error clearing user progress:', error);
+        res.status(500).json({ error: 'Failed to clear user progress' });
     }
 });
+
 
 // Забороняємо прямий доступ до vocabulary.html
 app.use((req, res, next) => {
