@@ -1,72 +1,86 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path'); // Для роботи зі шляхами
+const path = require('path');
+require('dotenv').config();
 
-// Схема слова
-const wordSchema = new mongoose.Schema({
-    category: String,
-    word: String,
-    translation: String,
-    example: { type: [String], default: [] }, // Поле `example` як масив рядків
-    guessed: { type: Boolean, default: false }
-});
+// Імпортуємо cookie-parser
+const cookieParser = require('cookie-parser');
 
-const Word = mongoose.model('Word', wordSchema);
-
-// Схема прогресу користувача
-const progressSchema = new mongoose.Schema({
-    userId: String,
-    wordId: mongoose.Schema.Types.ObjectId,
-    status: { type: String, default: 'not_guessed' }, // "guessed" або "not_guessed"
-});
-
-const UserProgress = mongoose.model('UserProgress', progressSchema);
-
+// Імпортуємо моделі
+const Word = require('./models/Word');
+const UserProgress = require('./models/UserProgress');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/wordStorage')
+// Підключення до MongoDB
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/wordStorage')
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('MongoDB connection error:', error));
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-    console.log('Connected to MongoDB');
+// Підключаємо маршрути авторизації
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
+
+// Приклад захищеного маршруту
+const auth = require('./middleware/auth');
+
+// Protected route for vocabulary.html
+app.get('/vocabulary', auth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'private', 'vocabulary.html'));
+});
+app.get('/vocabulary.html', (req, res) => {
+    res.redirect('/login.html');
 });
 
-// API Endpoints
+// app.get('/vocabulary', (req, res) => {
+//     res.redirect('/login.html');
+// });
 
-// Get words by category
+
+
+// API ендпоінти (наприклад, отримання слів)
 app.get('/api/words', async (req, res) => {
     try {
         const { category } = req.query;
-        const query = { guessed: false }; // Фільтруємо слова з guessed: false
+        const query = { guessed: false };
         if (category) {
-            query.category = category; // Додаємо категорію, якщо вона вказана
+            query.category = category;
         }
-        const words = await Word.find(query); // Застосовуємо фільтр
+        const words = await Word.find(query);
         res.json(words);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch words' });
     }
 });
 
+
 // Отримання прогресу користувача
-app.get('/api/progress', async (req, res) => {
-    const { userId } = req.query;
-    if (!userId) {
-        return res.status(400).json({ error: 'User ID is required' });
-    }
+// app.get('/api/progress', async (req, res) => {
+//     const { userId } = req.query;
+//     if (!userId) {
+//         return res.status(400).json({ error: 'User ID is required' });
+//     }
+//     try {
+//         const progress = await UserProgress.find({ userId });
+//         res.json(progress);
+//     } catch (error) {
+//         console.error('Error fetching progress:', error);
+//         res.status(500).json({ error: 'Failed to fetch progress' });
+//     }
+// });
+// Захищений маршрут для отримання прогресу користувача
+app.get('/api/progress', auth, async (req, res) => {
     try {
-        const progress = await UserProgress.find({ userId });
+        // Використовуємо req.user.id, встановлений auth middleware
+        const progress = await UserProgress.find({ userId: req.user.id });
         res.json(progress);
     } catch (error) {
         console.error('Error fetching progress:', error);
@@ -74,17 +88,50 @@ app.get('/api/progress', async (req, res) => {
     }
 });
 
-app.get('/api/category-stats', async (req, res) => {
+
+app.get('/api/category-stats', auth, async (req, res) => {
     try {
+        // Якщо userId зберігається як рядок, не перетворюємо його
         const stats = await Word.aggregate([
+            {
+                $lookup: {
+                    from: "userprogresses", // Переконайтеся, що назва колекції правильна
+                    let: { wordId: "$_id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$wordId", "$$wordId"] },
+                                        { $eq: ["$userId", req.user.id] } // Порівняння як рядків
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "userProgress"
+                }
+            },
+            {
+                $addFields: {
+                    guessedByUser: {
+                        $cond: [
+                            { $gt: [ { $size: "$userProgress" }, 0 ] },
+                            1,
+                            0
+                        ]
+                    }
+                }
+            },
             {
                 $group: {
                     _id: "$category",
                     total: { $sum: 1 },
-                    guessed: { $sum: { $cond: ["$guessed", 1, 0] } }
+                    guessed: { $sum: "$guessedByUser" }
                 }
             }
         ]);
+        console.log("Category stats:", stats);
         res.json(stats);
     } catch (error) {
         console.error('Error fetching category stats:', error);
@@ -92,18 +139,23 @@ app.get('/api/category-stats', async (req, res) => {
     }
 });
 
-// Оновлення прогресу користувача
-app.post('/api/progress', async (req, res) => {
-    const { userId, wordId, status } = req.body;
-    if (!userId || !wordId) {
-        return res.status(400).json({ error: 'User ID and Word ID are required' });
+
+
+
+
+// Додаємо auth middleware до маршруту, щоб перевірити токен і встановити req.user
+app.post('/api/progress', auth, async (req, res) => {
+    const { wordId, status } = req.body;
+    if (!wordId) {
+        return res.status(400).json({ error: 'Word ID is required' });
     }
     try {
         const updatedProgress = await UserProgress.findOneAndUpdate(
-            { userId, wordId },
+            { userId: req.user.id, wordId },
             { status },
             { upsert: true, new: true }
         );
+        console.log('Updated progress record:', updatedProgress);  // Додано логування
         res.json(updatedProgress);
     } catch (error) {
         console.error('Error updating progress:', error);
@@ -146,16 +198,26 @@ app.patch('/api/clear-guessed', async (req, res) => {
     }
 });
 
+// Забороняємо прямий доступ до vocabulary.html
+app.use((req, res, next) => {
+    if (req.path === '/vocabulary.html') {
+        return res.status(401).send('Unauthorized');
+    }
+    next();
+});
 
-// Serve static files from the "frontend" directory
-app.use(express.static(path.join(__dirname, 'frontend')));
+// Захищений маршрут для перевірки авторизації
+app.get('/api/protected', auth, (req, res) => {
+    res.json({ msg: "Authorized", user: req.user });
+});
 
-// Catch-all route to serve the frontend's index.html
+// Обслуговування статичних файлів для фронтенду
+app.use('/', express.static(path.join(__dirname, 'frontend')));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-// Start the server
+// Запуск сервера
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

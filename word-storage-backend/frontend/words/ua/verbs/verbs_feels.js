@@ -59,6 +59,5 @@ export const verbs_feels = [
     {word: "стояти", translation: "stand", guessed: false, example: "He decided to stand and wait for the bus"},
     {word: "витримувати", translation: "bear", guessed: false, example: "She could not bear the headache"},
     {word: "не могти витерпіти(роздратування)", translation: "can't stand", guessed: false, example: "I can not stand to be a loser"},
-    {word: "терпіти", translation: "endure", guessed: false, example: "A community endured the challenges"},
-    {word: "поранити", translation: "wound", guessed: false, example: "He accidentally wounded his hand"}
+    {word: "витримати", translation: "endure", guessed: false, example: "A community endured the challenges"}
 ]

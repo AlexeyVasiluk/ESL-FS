@@ -27,7 +27,7 @@ let arrayId = '';
 
 let attemptCount = 1; // Лічильник спроб
 
-const userId = 'test-user-123'; // Задайте унікальний ID користувача
+// const userId = 'test-user-123'; // Задайте унікальний ID користувача
 
 const fetchWords = async (category) => {
     try {
@@ -42,19 +42,29 @@ const fetchWords = async (category) => {
 
 const updateCategoryStats = async () => {
     try {
-        const response = await fetch('http://localhost:5000/api/category-stats');
+        const response = await fetch('http://localhost:5000/api/category-stats', {
+            method: 'GET',
+            credentials: 'include'
+        });
         if (!response.ok) throw new Error('Failed to fetch category stats');
         const stats = await response.json();
+        console.log("Client received stats:", stats);
 
         stats.forEach((stat) => {
-            const button = document.getElementById(stat._id);
+            const category = stat._id; // Наприклад, "verbs_moving"
+            const guessedCount = stat.guessed; // Кількість відгаданих слів для цього користувача
+            const totalCount = stat.total;     // Загальна кількість слів у категорії
+
+            // Знаходимо кнопку для цієї категорії
+            const button = document.getElementById(category);
             if (button) {
-                const greenSpan = button.querySelector('.green');
-                const redSpan = button.querySelector('.red');
-                if (greenSpan && redSpan) {
-                    greenSpan.textContent = stat.guessed; // Вгадані слова
-                    redSpan.textContent = stat.total; // Загальна кількість слів
+                let statSpan = button.querySelector('.stats');
+                if (!statSpan) {
+                    statSpan = document.createElement('span');
+                    statSpan.className = 'stats';
+                    button.appendChild(statSpan);
                 }
+                statSpan.innerHTML = ` <span style="color: green;">${guessedCount}</span> / <span style="color: red;">${totalCount}</span>`;
             }
         });
     } catch (error) {
@@ -63,39 +73,47 @@ const updateCategoryStats = async () => {
 };
 
 // Викликаємо функцію при завантаженні сторінки
-document.addEventListener('DOMContentLoaded', updateCategoryStats);
-
-// Викликаємо функцію при завантаженні сторінки
-document.addEventListener('DOMContentLoaded', updateCategoryStats);
+document.addEventListener('DOMContentLoaded', () => {
+    updateCategoryStats();
+    updateUserProgressUI();
+});
 
 const saveProgress = async (wordId, guessed) => {
     try {
-        const response = await fetch(`http://localhost:5000/api/words/${wordId}`, {
-            method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({guessed}),
+        // Викликаємо захищений маршрут, який зберігає прогрес у окремій колекції UserProgress
+        const response = await fetch('http://localhost:5000/api/progress', {
+            method: 'POST', // використовується POST для створення/оновлення запису
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                wordId,
+                status: guessed ? 'guessed' : 'not_guessed'
+            }),
+            credentials: 'include' // надсилання куків для авторизації
         });
 
-        if (!response.ok) throw new Error(`Failed to update word (${response.status})`);
+        if (!response.ok) {
+            throw new Error(`Failed to update progress (${response.status})`);
+        }
+        const resData = await response.json();
+        console.log(`Progress updated for word ID: ${wordId}`, resData);
 
-        console.log(`Progress updated for word ID: ${wordId}`);
-
-        // Видаляємо слово з локального масиву
+        // Можна видалити слово з локального масиву, якщо це потрібно:
         words = words.filter((word) => word._id !== wordId);
-
-        // Оновлюємо кількість слів
         totalQuestions.textContent = `Words left: ${words.length}`;
+        updateUserProgressUI();
     } catch (error) {
         console.error('Error saving progress:', error);
     }
 };
 
+
 buttonsArray.forEach((button) => {
     button.addEventListener('click', async () => {
         const category = button.id;
-        await chooseWordsArray(category, userId); // Передаємо userId
+        await chooseWordsArray(category);
     });
 });
+
 
 function createEventListenerForButton(buttonId) {
     return () => {
@@ -108,13 +126,12 @@ function createEventListenerForButton(buttonId) {
     };
 }
 
-const fetchProgress = async (userId) => {
-    if (!userId) {
-        console.error('User ID is not provided');
-        return [];
-    }
+const fetchProgress = async () => {
     try {
-        const response = await fetch(`http://localhost:5000/api/progress?userId=${userId}`);
+        const response = await fetch('http://localhost:5000/api/progress', {
+            method: 'GET',
+            credentials: 'include' // надсилаємо куки для авторизації
+        });
         if (!response.ok) throw new Error(`Failed to fetch progress: ${response.status}`);
         const data = await response.json();
         if (!Array.isArray(data)) throw new Error('Invalid response format');
@@ -125,14 +142,19 @@ const fetchProgress = async (userId) => {
     }
 };
 
-const chooseWordsArray = async (category, userId = 'default-user-id') => {
-    if (!userId) {
-        console.error('User ID is undefined');
-        return;
-    }
+
+async function updateUserProgressUI() {
+    const progressData = await fetchProgress();
+    // Підраховуємо кількість вгаданих слів
+    const guessedCount = progressData.filter(item => item.status === 'guessed').length;
+    // Відображаємо статистику (наприклад, у елементі з id "stats")
+    const statsElement = document.getElementById('stats');
+}
+
+const chooseWordsArray = async (category) => {
     try {
         const data = await fetchWords(category);
-        const progress = await fetchProgress(userId);
+        const progress = await fetchProgress();  // Тепер без userId
         words = data.map((word) => {
             const userWord = progress.find((p) => p.wordId === word._id);
             return {
@@ -435,4 +457,29 @@ const clearGuessedWords = async () => {
 const clearButton = document.getElementById('clear');
 if (clearButton) {
     clearButton.addEventListener('click', clearGuessedWords);
+}
+
+// Якщо кнопки "Вийти" ще немає, створюємо її
+if (!document.getElementById('logout-btn')) {
+    const logoutBtn = document.createElement('button');
+    logoutBtn.id = 'logout-btn';
+    logoutBtn.textContent = 'Вийти';
+    logoutBtn.addEventListener('click', async () => {
+        try {
+            const res = await fetch('http://localhost:5000/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
+            if (res.ok) {
+                window.location.href = '/';
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    });
+    
+    const container = document.querySelector('.header');
+    container.appendChild(logoutBtn);
 }

@@ -40,9 +40,8 @@ export const verbs_everyday = [
     {word: "вирізати", translation: "cut out", guessed: false, example: "Cut out the shape along a lines"},
     {word: "знімати", translation: "take off", guessed: false, example: "Take off your jacket when it gets warm"},
     {word: "прокинутися зі сну", translation: "wake up", guessed: false, example: "I wake up to birds chirping"},
-    {word: "робити завивку", translation: "perm", guessed: false, example: "She decided to perm her hair for a curly look"},
     {word: "вставати з ліжка", translation: "get out of bed", guessed: false, example: "It takes effort to get out of bed"},
-    {word: "підходити(про одяг)", translation: "fit", guessed: false, example: "The dress fit perfectly"},
+    {word: "пасувати(про одяг)", translation: "fit", guessed: false, example: "The dress fit perfectly"},
     {word: "вставати", translation: "get up", guessed: false, example: "He struggles to get up early every day"},
     {word: "шити", translation: "sew", guessed: false, example: "She likes to sew unique clothing items"},
     {word: "відпочивати", translation: "rest", guessed: false, example: "She likes to rest with a good book"},
@@ -55,7 +54,6 @@ export const verbs_everyday = [
     {word: "сідати", translation: "sit", guessed: false, example: "She likes to sit near the window"},
     {word: "витрачати", translation: "spend", guessed: false, example: "They spend time exploring new places"},
     {word: "псувати", translation: "spoil", guessed: false, example: "He spoiled tools trying to fix the table"},
-    {word: "стояти", translation: "stand", guessed: false, example: "People often stand at concerts"},
     {word: "зберігати", translation: "store", guessed: false, example: "She stores produce in the refrigerator"},
     {word: "консервувати", translation: "preserve", guessed: false, example: "Preserve fruits by making jams"}
 ]
