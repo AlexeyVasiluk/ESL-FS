@@ -48,22 +48,23 @@ const updateCategoryStats = async () => {
         });
         if (!response.ok) throw new Error('Failed to fetch category stats');
         const stats = await response.json();
-        // Припустимо, що кожна кнопка категорії має ID, який відповідає назві категорії
+        console.log("Client received stats:", stats);
+
         stats.forEach((stat) => {
-            const category = stat._id; // наприклад, "verbs_moving"
-            const guessedCount = stat.guessedCount;
-            // Знайдемо кнопку для цієї категорії
+            const category = stat._id; // Наприклад, "verbs_moving"
+            const guessedCount = stat.guessed; // Кількість відгаданих слів для цього користувача
+            const totalCount = stat.total;     // Загальна кількість слів у категорії
+
+            // Знаходимо кнопку для цієї категорії
             const button = document.getElementById(category);
             if (button) {
-                // Наприклад, знайдемо або створимо елемент, де буде відображено статистику
                 let statSpan = button.querySelector('.stats');
                 if (!statSpan) {
                     statSpan = document.createElement('span');
                     statSpan.className = 'stats';
-                    // Додамо цей елемент всередину кнопки (або поруч)
                     button.appendChild(statSpan);
                 }
-                statSpan.textContent = ` (Guessed: ${guessedCount})`;
+                statSpan.innerHTML = ` <span style="color: green;">${guessedCount}</span> / <span style="color: red;">${totalCount}</span>`;
             }
         });
     } catch (error) {
@@ -148,8 +149,6 @@ async function updateUserProgressUI() {
     const guessedCount = progressData.filter(item => item.status === 'guessed').length;
     // Відображаємо статистику (наприклад, у елементі з id "stats")
     const statsElement = document.getElementById('stats');
-    statsElement.textContent = `Guessed words: ${guessedCount}`;
-    console.log('updateUserProgressUI works');
 }
 
 const chooseWordsArray = async (category) => {

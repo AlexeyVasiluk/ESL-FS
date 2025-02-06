@@ -89,38 +89,58 @@ app.get('/api/progress', auth, async (req, res) => {
 });
 
 
-
-// Захищений маршрут для отримання статистики за категоріями для поточного користувача
 app.get('/api/category-stats', auth, async (req, res) => {
     try {
-        const stats = await UserProgress.aggregate([
-            // Фільтруємо записи для залогіненого користувача з статусом "guessed"
-            { $match: { userId: req.user.id, status: "guessed" } },
-            // Зливаємо (join) з колекцією "words", щоб отримати дані про слово
+        // Якщо userId зберігається як рядок, не перетворюємо його
+        const stats = await Word.aggregate([
             {
                 $lookup: {
-                    from: "words", // назва колекції з документами слів
-                    localField: "wordId",
-                    foreignField: "_id",
-                    as: "word"
+                    from: "userprogresses", // Переконайтеся, що назва колекції правильна
+                    let: { wordId: "$_id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$wordId", "$$wordId"] },
+                                        { $eq: ["$userId", req.user.id] } // Порівняння як рядків
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "userProgress"
                 }
             },
-            // Оскільки результат lookup повертає масив, розгортання поля "word"
-            { $unwind: "$word" },
-            // Групуємо за категорією і підраховуємо кількість вгаданих слів
+            {
+                $addFields: {
+                    guessedByUser: {
+                        $cond: [
+                            { $gt: [ { $size: "$userProgress" }, 0 ] },
+                            1,
+                            0
+                        ]
+                    }
+                }
+            },
             {
                 $group: {
-                    _id: "$word.category",
-                    guessedCount: { $sum: 1 }
+                    _id: "$category",
+                    total: { $sum: 1 },
+                    guessed: { $sum: "$guessedByUser" }
                 }
             }
         ]);
+        console.log("Category stats:", stats);
         res.json(stats);
     } catch (error) {
-        console.error("Error fetching category stats:", error);
-        res.status(500).json({ error: "Failed to fetch category stats" });
+        console.error('Error fetching category stats:', error);
+        res.status(500).json({ error: 'Failed to fetch category stats' });
     }
 });
+
+
+
 
 
 // Додаємо auth middleware до маршруту, щоб перевірити токен і встановити req.user

@@ -326,7 +326,7 @@ hr {
 }
 
 .words-button {
-    background: #ffffff;
+    /*background: #ffffff;*/
     cursor: pointer;
     margin: 10px 20px 10px 0;
 }
@@ -363,8 +363,8 @@ button:active {
 
 .words-button span {
     font-size: 0.9em;
-    color: #666;
-    margin-left: 5px;
+    /*color: #666;*/
+    margin-left: 1px;
 }
 
 .words-button .green {
