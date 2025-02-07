@@ -17,25 +17,25 @@ function setupAuthForm() {
     const messageP = document.getElementById('message');
 
     // Встановлюємо початковий стан (режим логіну)
-    formTitle.textContent = 'Логін';
-    submitBtn.textContent = 'Увійти';
+    formTitle.textContent = 'Login';
+    submitBtn.textContent = 'Login';
     usernameField.style.display = 'none';
-    toggleBtn.textContent = 'Немає акаунта? Зареєструйтесь тут';
+    toggleBtn.textContent = 'Register';
     messageP.textContent = '';
 
     // Обробка натискання кнопки перемикання режимів
     toggleBtn.addEventListener('click', () => {
         isRegister = !isRegister;
         if (isRegister) {
-            formTitle.textContent = 'Реєстрація';
-            submitBtn.textContent = 'Зареєструватися';
+            formTitle.textContent = 'Register';
+            submitBtn.textContent = 'Register';
             usernameField.style.display = 'block';
-            toggleBtn.textContent = 'Вже маєте акаунт? Увійдіть тут';
+            toggleBtn.textContent = 'Login';
         } else {
-            formTitle.textContent = 'Логін';
-            submitBtn.textContent = 'Увійти';
+            formTitle.textContent = 'Login';
+            submitBtn.textContent = 'Login';
             usernameField.style.display = 'none';
-            toggleBtn.textContent = 'Немає акаунта? Зареєструйтесь тут';
+            toggleBtn.textContent = 'Register';
         }
         messageP.textContent = '';
     });

@@ -41,7 +41,7 @@ router.post(
                     secure: process.env.NODE_ENV === 'production',
                     sameSite: 'strict',
                     path: '/',          // кука буде доступна на всіх сторінках
-                    maxAge: 3600000     // наприклад, 1 година (3600000 мс)
+                    maxAge: 36000000     // наприклад, 1 година (3600000 мс)
                 });
                 res.json({ token });
             });
@@ -84,7 +84,7 @@ router.post(
                     secure: process.env.NODE_ENV === 'production',
                     sameSite: 'strict',
                     path: '/',          // кука буде доступна на всіх сторінках
-                    maxAge: 3600000     // наприклад, 1 година (3600000 мс)
+                    maxAge: 36000000     // наприклад, 1 година (3600000 мс)
                 });
                 res.json({ token });
             });

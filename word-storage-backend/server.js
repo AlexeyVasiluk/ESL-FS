@@ -40,10 +40,6 @@ app.get('/vocabulary.html', (req, res) => {
     res.redirect('/login.html');
 });
 
-// app.get('/vocabulary', (req, res) => {
-//     res.redirect('/login.html');
-// });
-
 // API ендпоінти (наприклад, отримання слів)
 app.get('/api/words', async (req, res) => {
     try {
@@ -59,20 +55,6 @@ app.get('/api/words', async (req, res) => {
     }
 });
 
-// Отримання прогресу користувача
-// app.get('/api/progress', async (req, res) => {
-//     const { userId } = req.query;
-//     if (!userId) {
-//         return res.status(400).json({ error: 'User ID is required' });
-//     }
-//     try {
-//         const progress = await UserProgress.find({ userId });
-//         res.json(progress);
-//     } catch (error) {
-//         console.error('Error fetching progress:', error);
-//         res.status(500).json({ error: 'Failed to fetch progress' });
-//     }
-// });
 // Захищений маршрут для отримання прогресу користувача
 app.get('/api/progress', auth, async (req, res) => {
     try {
@@ -183,23 +165,6 @@ app.patch('/api/words/:id', async (req, res) => {
     }
 });
 
-// Оновлення всіх слів: guessed = false
-// Захищений маршрут для очищення особистого прогресу користувача
-// Захищений маршрут для очищення прогресу користувача
-// app.patch('/api/clear-progress', auth, async (req, res) => {
-//     try {
-//         console.log("Clear progress route hit. User ID:", req.user.id);
-//         const result = await UserProgress.updateMany(
-//             { userId: req.user.id, status: "guessed" },
-//             { $set: { status: "false" } } // або { status: "not_guessed" }
-//         );
-//         console.log("Clear progress result:", result);
-//         res.json({ message: 'Your progress has been cleared', modifiedCount: result.modifiedCount });
-//     } catch (error) {
-//         console.error('Error clearing user progress:', error);
-//         res.status(500).json({ error: 'Failed to clear user progress' });
-//     }
-// });
 // Захищений маршрут для очищення прогресу користувача (видалення записів)
 app.patch('/api/clear-progress', auth, async (req, res) => {
     try {
@@ -216,7 +181,6 @@ app.patch('/api/clear-progress', auth, async (req, res) => {
         res.status(500).json({ error: 'Failed to clear user progress' });
     }
 });
-
 
 // Забороняємо прямий доступ до vocabulary.html
 app.use((req, res, next) => {
