@@ -27,8 +27,6 @@ let arrayId = '';
 
 let attemptCount = 1; // Лічильник спроб
 
-// const userId = 'test-user-123'; // Задайте унікальний ID користувача
-
 const fetchWords = async (category) => {
     try {
         const response = await fetch(`http://localhost:5000/api/words?category=${category}`);
@@ -140,7 +138,6 @@ const fetchProgress = async () => {
     }
 };
 
-
 async function updateUserProgressUI() {
     const progressData = await fetchProgress();
     // Підраховуємо кількість вгаданих слів
@@ -200,9 +197,6 @@ const checkGuess = (event) => {
         if (guess === currentWord.translation.trim().toLowerCase()) {
             // Якщо відповідь правильна
             guessInput.style.backgroundColor = "#5bc20f";
-            setTimeout(() => {
-                // guessInput.style.backgroundColor = "";
-            }, 1500);
 
             currentWord.guessed = true; // Оновлюємо статус слова в локальному масиві
             correctCount++; // Збільшуємо лічильник правильних відповідей
@@ -220,10 +214,6 @@ const checkGuess = (event) => {
         } else {
             // Якщо відповідь неправильна
             guessInput.style.backgroundColor = "#ff0000";
-            setTimeout(() => {
-                // guessInput.style.backgroundColor = "";
-            }, 1500);
-
             wrongCount++; // Збільшуємо лічильник неправильних відповідей
         }
 
@@ -240,10 +230,6 @@ const checkGuess = (event) => {
 
         // Оновлюємо статистику
         showResults();
-
-        // Очищаємо поле вводу
-        // guessInput.value = '';
-        // guessInput.focus();
 
         // Якщо більше немає слів, завершити гру
         if (words.length === 0) {
@@ -266,9 +252,10 @@ function emptyWordList() {
         element.classList.remove('hide');
     });
     document.getElementById('makeSentence').classList.add('hide');
+
     setTimeout(() => {
         showWord();
-    }, 1500);
+    }, 2500);
 }
 
 const showResults = () => {
@@ -293,12 +280,10 @@ const showResults = () => {
 const handleIncorrectAnswer = (answer) => {
     resultText = `<div class="result-row">
         ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
-        <div class="example-text">
+        <div id="example-sentense-incorrect" class="hide">
             <span style="font-weight: bold;"> Example: </span>${answer.examples}
         </div>
     </div>`;
-
-    document.getElementById('makeSentence').classList.remove('hide');
 
     const wordObjects = createWordObjects(String(answer.examples));
     const shuffledWordObjects = shuffleWords(wordObjects);
@@ -308,8 +293,9 @@ const handleIncorrectAnswer = (answer) => {
 };
 
 const handleCorrectAnswer = (answer) => {
-    resultText = `<div class="result-row">${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
-        <div class="example-text correct">
+    resultText = `<div class="result-row">
+        ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
+        <div id="example-sentense-correct">
             <span style="font-weight: bold;"> Example: </span>${answer.examples}
         </div>
     </div>`;
@@ -375,9 +361,10 @@ function checkResult(clickedWords, wordObjects) {
 
                 // Показуємо повідомлення про помилку
                 document.getElementById('errorInSentence').classList.remove('hide');
+                document.getElementById('example-sentense-incorrect').classList.remove('hide');
                 setTimeout(function () {
                     document.getElementById('errorInSentence').classList.add('hide');
-                }, 1500);
+                }, 2500);
 
                 // Додаємо обробники подій для повторної спроби
                 attachEventListeners(wordObjects);
@@ -468,7 +455,7 @@ if (clearProgressButton) {
 if (!document.getElementById('logout-btn')) {
     const logoutBtn = document.createElement('button');
     logoutBtn.id = 'logout-btn';
-    logoutBtn.textContent = 'Вийти';
+    logoutBtn.textContent = 'Logout';
     logoutBtn.addEventListener('click', async () => {
         try {
             const res = await fetch('http://localhost:5000/api/auth/logout', {

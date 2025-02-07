@@ -141,7 +141,7 @@ function showLoginForm() {
     // Встановлюємо заголовок форми як "Логін" (оскільки за замовчуванням ми використовуємо логін)
     const formTitle = document.getElementById('form-title');
     if (formTitle) {
-        formTitle.textContent = 'Логін';
+        formTitle.textContent = 'Login';
     }
     // Очищаємо повідомлення
     const messageP = document.getElementById('message');

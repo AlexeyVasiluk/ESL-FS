@@ -219,3 +219,6 @@ const runImport = async () => {
 };
 
 runImport();
+
+// To run this file paste next command to terminal:
+// node importWords.js
