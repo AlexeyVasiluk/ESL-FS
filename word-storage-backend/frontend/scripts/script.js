@@ -400,7 +400,7 @@ function checkResult(clickedWords, wordObjects) {
             }
         }
     }
-
+    document.getElementById('example-sentense-incorrect').classList.remove('hide');
     emptyWordList(); // Якщо слова правильні, очищуємо список
     return true; // Завершуємо функцію
 }
