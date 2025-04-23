@@ -37,11 +37,11 @@ router.post(
                 if (err) throw err;
                 // Встановлюємо куку з токеном
                 res.cookie('token', token, {
-                    httpOnly: false, // або false, якщо потрібно читати куку через JS (але менш безпечно)
-                    secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict',
-                    path: '/',          // кука буде доступна на всіх сторінках
-                    maxAge: 36000000     // наприклад, 1 година (3600000 мс)
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'None',
+                    path: '/',
+                    maxAge: 3600000
                 });
                 res.json({ token });
             });
@@ -80,11 +80,11 @@ router.post(
                 if (err) throw err;
                 // Встановлюємо токен у cookie
                 res.cookie('token', token, {
-                    httpOnly: false, // або false, якщо потрібно читати куку через JS (але менш безпечно)
-                    secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict',
-                    path: '/',          // кука буде доступна на всіх сторінках
-                    maxAge: 36000000     // наприклад, 1 година (3600000 мс)
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'None',
+                    path: '/',
+                    maxAge: 3600000
                 });
                 res.json({ token });
             });
