@@ -26,7 +26,7 @@ app.use(cookieParser());
 //     .catch((error) => console.error('MongoDB connection error:', error));
 
 mongoose.connect(process.env.MONGODB_URI, {
-    dbName: 'wordStorage',
+    dbName: 'eslDatabase',
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
