@@ -1,10 +1,7 @@
-// Оголошуємо глобальну змінну, за замовчуванням режим логіну
-let isRegister = false; // false = логін, true = реєстрація
+let isRegister = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Простенька перевірка наявності куки "token"
     checkAuthStatus();
-    // Налаштовуємо форму логіну/реєстрації
     setupAuthForm();
 });
 
@@ -16,14 +13,12 @@ function setupAuthForm() {
     const toggleBtn = document.getElementById('toggle-btn');
     const messageP = document.getElementById('message');
 
-    // Встановлюємо початковий стан (режим логіну)
     formTitle.textContent = 'Login';
     submitBtn.textContent = 'Login';
     usernameField.style.display = 'none';
     toggleBtn.textContent = 'Register';
     messageP.textContent = '';
 
-    // Обробка натискання кнопки перемикання режимів
     toggleBtn.addEventListener('click', () => {
         isRegister = !isRegister;
         if (isRegister) {
@@ -40,7 +35,6 @@ function setupAuthForm() {
         messageP.textContent = '';
     });
 
-    // Обробка відправки форми (логін/реєстрація)
     authForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         messageP.textContent = '';
@@ -48,15 +42,12 @@ function setupAuthForm() {
 
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        let url = '';
+        let url = isRegister ? '/api/auth/register' : '/api/auth/login';
         let data = { email, password };
 
         if (isRegister) {
             const username = document.getElementById('username').value;
             data.username = username;
-            url = 'https://esl-fs.onrender.com/api/auth/register';
-        } else {
-            url = 'https://esl-fs.onrender.com/api/auth/login';
         }
 
         try {
@@ -64,18 +55,20 @@ function setupAuthForm() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
-                credentials: 'include' // надсилання cookie
+                credentials: 'include'
             });
+
             const resData = await response.json();
             if (!response.ok) {
                 const errorMsg =
                     resData.error || (resData.errors && resData.errors[0].msg) || 'Щось пішло не так';
                 throw new Error(errorMsg);
             }
-            // Після успішного логіну/реєстрації сервер встановлює куку "token"
+
             messageP.style.color = 'green';
             messageP.textContent = 'Успішно! Ви увійшли в систему.';
             window.location.href = '/vocabulary';
+
         } catch (error) {
             messageP.style.color = 'red';
             messageP.textContent = error.message;
@@ -85,72 +78,44 @@ function setupAuthForm() {
 
 function checkAuthStatus() {
     console.log('checkAuthStatus викликано');
-    // Простенька перевірка: шукаємо "token=" у document.cookie
     if (document.cookie && document.cookie.indexOf('token=') !== -1) {
-        // Якщо кука є, вважаємо, що користувач авторизований
         if (window.location.pathname === '/login.html') {
             window.location.href = '/vocabulary';
         } else {
             displayLogoutButton();
         }
     } else {
-        // Якщо куки немає, показуємо форму логіну
         showLoginForm();
     }
 }
 
 function displayLogoutButton() {
-    // Приховуємо форму логіну
     const authForm = document.getElementById('auth-form');
-    if (authForm) {
-        authForm.style.display = 'none';
-    }
-    // Приховуємо кнопку перемикання режимів
+    if (authForm) authForm.style.display = 'none';
+
     const toggleBtn = document.getElementById('toggle-btn');
-    if (toggleBtn) {
-        toggleBtn.style.display = 'none';
-    }
-    // Змінюємо заголовок
+    if (toggleBtn) toggleBtn.style.display = 'none';
+
     const formTitle = document.getElementById('form-title');
-    if (formTitle) {
-        formTitle.textContent = 'Вітаємо!';
-    }
-    // Очищаємо повідомлення
+    if (formTitle) formTitle.textContent = 'Вітаємо!';
+
     const messageP = document.getElementById('message');
-    if (messageP) {
-        messageP.textContent = '';
-    }
-
-
-
-
-
+    if (messageP) messageP.textContent = '';
 }
 
 function showLoginForm() {
-    // Відображаємо форму логіну
     const authForm = document.getElementById('auth-form');
-    if (authForm) {
-        authForm.style.display = 'block';
-    }
-    // Відображаємо кнопку перемикання режимів
+    if (authForm) authForm.style.display = 'block';
+
     const toggleBtn = document.getElementById('toggle-btn');
-    if (toggleBtn) {
-        toggleBtn.style.display = 'block';
-    }
-    // Встановлюємо заголовок форми як "Логін" (оскільки за замовчуванням ми використовуємо логін)
+    if (toggleBtn) toggleBtn.style.display = 'block';
+
     const formTitle = document.getElementById('form-title');
-    if (formTitle) {
-        formTitle.textContent = 'Login';
-    }
-    // Очищаємо повідомлення
+    if (formTitle) formTitle.textContent = 'Login';
+
     const messageP = document.getElementById('message');
-    if (messageP) {
-        messageP.textContent = '';
-    }
-    // Видаляємо кнопку "Вийти", якщо вона існує
+    if (messageP) messageP.textContent = '';
+
     const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.remove();
-    }
+    if (logoutBtn) logoutBtn.remove();
 }
