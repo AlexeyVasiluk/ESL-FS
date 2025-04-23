@@ -1,5 +1,8 @@
+require('dotenv').config(); // Додаємо цю стрічку найпершою
+console.log('MONGODB_URI:', process.env.MONGODB_URI); // ← тимчасово
 const mongoose = require('mongoose');
-const { Word } = require('./models'); // Перевірте коректність імпорту
+// const { Word } = require('./models'); // Перевірте коректність імпорту
+const Word = require('./models/Word');
 
 // Підключення до MongoDB
 const connectToDB = async () => {
@@ -204,10 +207,10 @@ const importWords = async () => {
         await Word.deleteMany({});
 
         // Додаємо нові слова
-        const preparedWords = words.map(word => ({ ...word, guessed: false }));
-        const insertedWords = await Word.insertMany(preparedWords);
+        // const preparedWords = words.map(word => ({ ...word, guessed: false }));
+        // const insertedWords = await Word.insertMany(preparedWords);
 
-        // const insertedWords = await Word.insertMany(words);
+        const insertedWords = await Word.insertMany(words);
         console.log(`Inserted ${insertedWords.length} words into the database.`);
     } catch (error) {
         console.error('Error inserting words:', error);
