@@ -16,7 +16,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+const allowedOrigin = 'https://www.esl-club.com';
+
+app.use(cors({
+    origin: allowedOrigin,
+    credentials: true // 👈 обов’язково для cookies!
+}));
 app.use(express.json());
 app.use(cookieParser());
 
