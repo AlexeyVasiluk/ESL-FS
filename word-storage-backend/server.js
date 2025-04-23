@@ -16,12 +16,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-const allowedOrigin = 'https://www.esl-club.com';
 
-app.use(cors({
-    origin: allowedOrigin,
-    credentials: true // 👈 обов’язково для cookies!
-}));
+// const allowedOrigin = 'https://www.esl-club.com';
+//
+// app.use(cors({
+//     origin: allowedOrigin,
+//     credentials: true // обов’язково для cookies!
+// }));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -210,6 +212,16 @@ app.get('/api/protected', auth, (req, res) => {
 
 // Обслуговування статичних файлів для фронтенду
 app.use('/', express.static(path.join(__dirname, 'frontend')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
+const path = require('path');
+
+// Статика для фронтенду
+app.use('/', express.static(path.join(__dirname, 'frontend')));
+
+// Всі інші маршрути віддають index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
