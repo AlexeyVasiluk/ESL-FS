@@ -40,7 +40,7 @@ router.post(
                     httpOnly: true,
                     secure: true,
                     sameSite: 'None',
-                    domain: 'esl-club.com', // 👈 встановити вручну!
+                    domain: 'esl-club.com',
                     path: '/',
                     maxAge: 3600000
                 });
@@ -84,7 +84,7 @@ router.post(
                     httpOnly: true,
                     secure: true,
                     sameSite: 'None',
-                    domain: 'esl-club.com', // 👈 встановити вручну!
+                    domain: 'esl-club.com',
                     path: '/',
                     maxAge: 3600000
                 });
