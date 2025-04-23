@@ -1,9 +1,8 @@
-// routes/auth.js
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
-const User = require('../models/User');  // переконайтеся, що модель User створена та експортується
+const User = require('../models/User');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
@@ -17,17 +16,18 @@ router.post(
     ],
     async (req, res) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+
         const { username, email, password } = req.body;
+
         try {
-            // Перевірка, чи існує користувач з таким email
             let user = await User.findOne({ email });
             if (user) {
                 return res.status(400).json({ error: 'User already exists' });
             }
-            // Створюємо користувача
+
             user = new User({ username, email, password });
             await user.save();
 
@@ -36,17 +36,21 @@ router.post(
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
 
+                console.log('✅ Setting cookie on registration for:', email);
+
                 res.cookie('token', token, {
                     httpOnly: true,
                     secure: true,
                     sameSite: 'None',
                     domain: '.esl-club.com',
                     path: '/',
-                    maxAge: 3600000
+                    maxAge: 3600000 // 1 година
                 });
 
+                console.log('✅ Cookie set');
                 res.json({ token });
             });
+
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server error');
@@ -63,23 +67,29 @@ router.post(
     ],
     async (req, res) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+
         const { email, password } = req.body;
+
         try {
             const user = await User.findOne({ email });
             if (!user) {
                 return res.status(400).json({ error: 'Invalid credentials' });
             }
+
             const isMatch = await user.comparePassword(password);
             if (!isMatch) {
                 return res.status(400).json({ error: 'Invalid credentials' });
             }
 
             const payload = { user: { id: user._id } };
+
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
+
+                console.log('✅ Setting cookie on login for:', email);
 
                 res.cookie('token', token, {
                     httpOnly: true,
@@ -90,8 +100,10 @@ router.post(
                     maxAge: 3600000
                 });
 
+                console.log('✅ Cookie set');
                 res.json({ token });
             });
+
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server error');
@@ -99,8 +111,15 @@ router.post(
     }
 );
 
+// Логаут користувача
 router.post('/logout', (req, res) => {
-    res.clearCookie('token');
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+        domain: '.esl-club.com',
+        path: '/'
+    });
     res.json({ msg: 'Logged out successfully' });
 });
 
