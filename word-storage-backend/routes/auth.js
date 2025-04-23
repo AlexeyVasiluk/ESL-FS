@@ -35,15 +35,16 @@ router.post(
 
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
-                // Встановлюємо куку з токеном
+
                 res.cookie('token', token, {
                     httpOnly: true,
                     secure: true,
                     sameSite: 'None',
-                    domain: 'esl-club.com',
+                    domain: '.esl-club.com',
                     path: '/',
                     maxAge: 3600000
                 });
+
                 res.json({ token });
             });
         } catch (err) {
@@ -79,15 +80,16 @@ router.post(
             const payload = { user: { id: user._id } };
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
-                // Встановлюємо токен у cookie
+
                 res.cookie('token', token, {
                     httpOnly: true,
                     secure: true,
                     sameSite: 'None',
-                    domain: 'esl-club.com',
+                    domain: '.esl-club.com',
                     path: '/',
                     maxAge: 3600000
                 });
+
                 res.json({ token });
             });
         } catch (err) {
