@@ -36,7 +36,7 @@ router.post(
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
 
-                console.log('✅ Setting cookie on registration for:', email);
+                console.log('Setting cookie on registration for:', email);
 
                 res.cookie('token', token, {
                     httpOnly: true,
@@ -47,7 +47,7 @@ router.post(
                     maxAge: 3600000 // 1 година
                 });
 
-                console.log('✅ Cookie set');
+                console.log('Cookie set');
                 res.json({ token });
             });
 
@@ -89,7 +89,7 @@ router.post(
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
 
-                console.log('✅ Setting cookie on login for:', email);
+                console.log('Setting cookie on login for:', email);
 
                 res.cookie('token', token, {
                     httpOnly: true,
@@ -100,7 +100,7 @@ router.post(
                     maxAge: 3600000
                 });
 
-                console.log('✅ Cookie set');
+                console.log('Cookie set');
                 res.json({ token });
             });
 
