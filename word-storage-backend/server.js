@@ -1,37 +1,30 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
-// Імпортуємо cookie-parser
 const cookieParser = require('cookie-parser');
 
-// Імпортуємо моделі
 const Word = require('./models/Word');
 const UserProgress = require('./models/UserProgress');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// ===== Middleware =====
 
+// ❗ Тепер не потрібно, бо бекенд і фронт на одному домені
+// const cors = require('cors');
 // const allowedOrigin = 'https://www.esl-club.com';
-//
 // app.use(cors({
 //     origin: allowedOrigin,
-//     credentials: true // обов’язково для cookies!
+//     credentials: true
 // }));
 
 app.use(express.json());
 app.use(cookieParser());
 
-// Підключення до MongoDB
-// mongoose.connect(process.env.MONGODB_URI)
-//     .then(() => console.log('Connected to MongoDB'))
-//     .catch((error) => console.error('MongoDB connection error:', error));
-
+// ===== MongoDB Connection =====
 mongoose.connect(process.env.MONGODB_URI, {
     dbName: 'eslDatabase',
     useNewUrlParser: true,
@@ -40,22 +33,23 @@ mongoose.connect(process.env.MONGODB_URI, {
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('MongoDB connection error:', error));
 
-// Підключаємо маршрути авторизації
+// ===== Auth Routes =====
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
 
-// Приклад захищеного маршруту
+// ===== Auth Middleware =====
 const auth = require('./middleware/auth');
 
-// Protected route for vocabulary.html
+// ===== Protected HTML =====
 app.get('/vocabulary', auth, (req, res) => {
     res.sendFile(path.join(__dirname, 'private', 'vocabulary.html'));
 });
+
 app.get('/vocabulary.html', (req, res) => {
     res.redirect('/login.html');
 });
 
-// API ендпоінти (наприклад, отримання слів)
+// ===== API: Words =====
 app.get('/api/words', async (req, res) => {
     try {
         const { category } = req.query;
@@ -70,10 +64,9 @@ app.get('/api/words', async (req, res) => {
     }
 });
 
-// Захищений маршрут для отримання прогресу користувача
+// ===== API: Progress =====
 app.get('/api/progress', auth, async (req, res) => {
     try {
-        // Використовуємо req.user.id, встановлений auth middleware
         const progress = await UserProgress.find({ userId: req.user.id });
         res.json(progress);
     } catch (error) {
@@ -84,13 +77,11 @@ app.get('/api/progress', auth, async (req, res) => {
 
 app.get('/api/category-stats', auth, async (req, res) => {
     try {
-        // Оскільки userId зберігається як рядок, використовуйте його без перетворення:
-        const userId = req.user.id; // Рядок
-
+        const userId = req.user.id;
         const stats = await Word.aggregate([
             {
                 $lookup: {
-                    from: "userprogresses", // використовується правильна назва колекції
+                    from: "userprogresses",
                     let: { wordId: "$_id" },
                     pipeline: [
                         {
@@ -98,10 +89,10 @@ app.get('/api/category-stats', auth, async (req, res) => {
                                 $expr: {
                                     $and: [
                                         { $eq: ["$wordId", "$$wordId"] },
-                                        { $eq: ["$userId", userId] }  // порівнюємо як рядки
+                                        { $eq: ["$userId", userId] }
                                     ]
                                 },
-                                status: "guessed" // фільтруємо лише записи, де статус рівний "guessed"
+                                status: "guessed"
                             }
                         }
                     ],
@@ -112,7 +103,7 @@ app.get('/api/category-stats', auth, async (req, res) => {
                 $addFields: {
                     guessedByUser: {
                         $cond: [
-                            { $gt: [ { $size: "$userProgress" }, 0 ] },
+                            { $gt: [{ $size: "$userProgress" }, 0] },
                             1,
                             0
                         ]
@@ -136,8 +127,7 @@ app.get('/api/category-stats', auth, async (req, res) => {
     }
 });
 
-
-// Додаємо auth middleware до маршруту, щоб перевірити токен і встановити req.user
+// POST: update progress
 app.post('/api/progress', auth, async (req, res) => {
     const { wordId, status } = req.body;
     if (!wordId) {
@@ -149,7 +139,7 @@ app.post('/api/progress', auth, async (req, res) => {
             { status },
             { upsert: true, new: true }
         );
-        console.log('Updated progress record:', updatedProgress);  // Додано логування
+        console.log('Updated progress record:', updatedProgress);
         res.json(updatedProgress);
     } catch (error) {
         console.error('Error updating progress:', error);
@@ -157,7 +147,7 @@ app.post('/api/progress', auth, async (req, res) => {
     }
 });
 
-// Оновлення статусу слова
+// PATCH: update word status
 app.patch('/api/words/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -180,11 +170,10 @@ app.patch('/api/words/:id', async (req, res) => {
     }
 });
 
-// Захищений маршрут для очищення прогресу користувача (видалення записів)
+// PATCH: clear progress
 app.patch('/api/clear-progress', auth, async (req, res) => {
     try {
         console.log("Clear progress route hit. User ID:", req.user.id);
-        // Видаляємо всі записи для поточного користувача, де статус "guessed"
         const result = await UserProgress.deleteMany({
             userId: req.user.id,
             status: "guessed"
@@ -205,28 +194,18 @@ app.use((req, res, next) => {
     next();
 });
 
-// Захищений маршрут для перевірки авторизації
+// Protected check
 app.get('/api/protected', auth, (req, res) => {
     res.json({ msg: "Authorized", user: req.user });
 });
 
-// Обслуговування статичних файлів для фронтенду
+// ===== FRONTEND STATIC FILES =====
 app.use('/', express.static(path.join(__dirname, 'frontend')));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-const path = require('path');
-
-// Статика для фронтенду
-app.use('/', express.static(path.join(__dirname, 'frontend')));
-
-// Всі інші маршрути віддають index.html
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
-});
-
-// Запуск сервера
+// ===== START SERVER =====
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
