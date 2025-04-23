@@ -5,7 +5,7 @@
 const clearUserProgressByCategory = async (category) => {
     console.log(`Clearing progress for category: ${category}`);
     try {
-        const response = await fetch('http://localhost:5000/api/clear-progress', {
+        const response = await fetch('https://esl-fs.onrender.com/api/clear-progress', {
             method: 'PATCH',
             credentials: 'include', // надсилаємо куки для авторизації
             headers: { 'Content-Type': 'application/json' },

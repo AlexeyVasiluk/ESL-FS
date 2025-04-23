@@ -54,9 +54,9 @@ function setupAuthForm() {
         if (isRegister) {
             const username = document.getElementById('username').value;
             data.username = username;
-            url = 'http://localhost:5000/api/auth/register';
+            url = 'https://esl-fs.onrender.com/api/auth/register';
         } else {
-            url = 'http://localhost:5000/api/auth/login';
+            url = 'https://esl-fs.onrender.com/api/auth/login';
         }
 
         try {
