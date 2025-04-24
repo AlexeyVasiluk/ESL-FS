@@ -27,7 +27,7 @@ let attemptCount = 1; // Лічильник спроб
 const updateCategoryStats = async () => {
     console.log('updateCategoryStats');
     try {
-        const response = await fetch('https://esl-fs.onrender.com/api/category-stats', {
+        const response = await fetch('/api/category-stats', {
             method: 'GET',
             credentials: 'include'
         });
@@ -74,7 +74,7 @@ buttonsArray.forEach((button) => {
 const fetchWords = async (category) => {
     console.log('fetchWords');
     try {
-        const response = await fetch(`https://esl-fs.onrender.com/api/words?category=${category}`);
+        const response = await fetch(`/api/words?category=${category}`);
         if (!response.ok) throw new Error('Failed to fetch words');
         return await response.json(); // API повертає тільки потрібні слова
     } catch (error) {
@@ -87,7 +87,7 @@ const fetchWords = async (category) => {
 const fetchProgress = async () => {
     console.log('fetchProgress');
     try {
-        const response = await fetch('https://esl-fs.onrender.com/api/progress', {
+        const response = await fetch('/api/progress', {
             method: 'GET',
             credentials: 'include' // надсилаємо куки для авторизації
         });
@@ -225,7 +225,7 @@ const saveProgress = async (wordId, guessed) => {
     console.log('saveProgress');
     try {
         // Надсилаємо POST-запит до маршруту /api/progress з даними про слово та його статусом
-        const response = await fetch('https://esl-fs.onrender.com/api/progress', {
+        const response = await fetch('/api/progress', {
             method: 'POST', // використовується POST для створення або оновлення запису
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -425,7 +425,7 @@ const endGameSequence = () => {
 // CLEAR PROGRESS
 const clearUserProgress = async () => {
     try {
-        const response = await fetch('https://esl-fs.onrender.com/api/clear-progress', {
+        const response = await fetch('/api/clear-progress', {
             method: 'PATCH',
             credentials: 'include', // надсилання куки для авторизації
             headers: { 'Content-Type': 'application/json' }
@@ -453,7 +453,7 @@ if (!document.getElementById('logout-btn')) {
     logoutBtn.textContent = 'Logout';
     logoutBtn.addEventListener('click', async () => {
         try {
-            const res = await fetch('https://esl-fs.onrender.com/api/auth/logout', {
+            const res = await fetch('/api/auth/logout', {
                 method: 'POST',
                 credentials: 'include'
             });
