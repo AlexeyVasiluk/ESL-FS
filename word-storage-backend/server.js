@@ -12,23 +12,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ===== Middleware =====
-
-// ❗ Тепер не потрібно, бо бекенд і фронт на одному домені
-// const cors = require('cors');
-// const allowedOrigin = 'https://www.esl-club.com';
-// app.use(cors({
-//     origin: allowedOrigin,
-//     credentials: true
-// }));
-
 app.use(express.json());
 app.use(cookieParser());
 
 // ===== MongoDB Connection =====
 mongoose.connect(process.env.MONGODB_URI, {
-    dbName: 'eslDatabase',
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    dbName: 'eslDatabase'
 })
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('MongoDB connection error:', error));
