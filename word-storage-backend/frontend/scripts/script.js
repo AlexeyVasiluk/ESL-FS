@@ -246,7 +246,12 @@ const saveProgress = async (wordId, guessed) => {
         words = words.filter((word) => word._id !== wordId);
 
         // Оновлюємо відображення кількості слів
-        totalQuestions.textContent = `${t('words_left')} ${words.length}`;
+        // totalQuestions.textContent = `${t('words_left')} ${words.length}`;
+        totalQuestions.innerHTML = `
+            <span data-i18n="words_left"></span>
+            <span class="words-count">${words.length}</span>
+        `;
+
     } catch (error) {
         console.error('Error saving progress:', error);
     }
@@ -254,11 +259,16 @@ const saveProgress = async (wordId, guessed) => {
 
 // SHOW RESULTS
 const showResults = () => {
-    console.log('showResults');
     resultText = '';
     resultCount = `<div class="result-row">
-        <span data-i18n="correct" style='color: green;'>${t('correct')}: ${correctCount} | </span>
-        <span data-i18n="wrong" style='color: red;'>${t('wrong')}: ${wrongCount}</span>
+      <span style="color: green;">
+        <span data-i18n="correct"></span>: 
+        <span class="correct-count">${correctCount}</span> |
+      </span>
+      <span style="color: red;">
+        <span data-i18n="wrong"></span>: 
+        <span class="wrong-count">${wrongCount}</span>
+      </span>
     </div>`;
 
     for (let i = 0; i < answerLog.length; i++) {
