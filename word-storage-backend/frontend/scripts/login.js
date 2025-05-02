@@ -17,7 +17,7 @@ function setupAuthForm() {
     const messageP = document.getElementById('message');
 
     // Ініціалізуємо тексти
-    formTitle.textContent       = t('loginLoginFormTitle');
+    formTitle.textContent       = t('loginFormTitle');
     submitBtn.textContent       = t('loginLoginBtn');
     usernameField.style.display = 'none';
     toggleBtn.textContent       = t('loginToggleToRegister');
@@ -31,8 +31,8 @@ function setupAuthForm() {
             usernameField.style.display = 'block';
             toggleBtn.textContent       = t('loginToggleToLogin');
         } else {
-            formTitle.textContent       = t('loginLoginFormTitle');
-            submitBtn.textContent       = t('loginLoginBtn');
+            formTitle.textContent       = t('loginFormTitle');
+            submitBtn.textContent       = t('loginBtn');
             usernameField.style.display = 'none';
             toggleBtn.textContent       = t('loginToggleToRegister');
         }
@@ -115,7 +115,7 @@ function showLoginForm() {
     if (toggleBtn) toggleBtn.style.display = 'block';
 
     const formTitle = document.getElementById('form-title');
-    if (formTitle) formTitle.textContent = t('loginLoginFormTitle');
+    if (formTitle) formTitle.textContent = t('loginFormTitle');
 
     const messageP = document.getElementById('message');
     if (messageP) messageP.textContent = '';

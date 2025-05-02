@@ -17,7 +17,7 @@ export default {
     logout: 'Cerrar sesión',
     congrats: '¡Felicidades! ¡Has ganado!',
     loginPageTitle: 'Iniciar sesión',
-    loginFormTitle: 'Registro',
+    loginFormTitle: 'Autorización',
     loginUsernameLabel: 'Nombre de usuario:',
     loginUsernamePlaceholder: 'Ingresa nombre de usuario',
     loginEmailLabel: 'Correo electrónico:',
