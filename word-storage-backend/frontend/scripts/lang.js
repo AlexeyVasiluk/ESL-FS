@@ -16,7 +16,7 @@ export function t(key) {
     return translations[lang][key] || key;
 }
 
-function translatePage() {
+export function translatePage() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.dataset.i18n;
         el.textContent = t(key);
