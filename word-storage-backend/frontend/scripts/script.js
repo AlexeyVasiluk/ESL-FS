@@ -13,15 +13,13 @@ const help = document.getElementsByClassName('help');
 var content = document.getElementById('word');
 let words = [];
 let answerLog = [];
-// let totalQuestionsText = '';
-// let currentWordIndex = 0;
 let correctCount = 0;
 let wrongCount = 0;
 let resultText = '';
 let resultCount = '';
 let randomIndex = 0;
 let arrayId = '';
-let attemptCount = 1; // Лічильник спроб
+let attemptCount = 1;
 
 function t(key) {
     const lang = getLang();           // getLang() з lang.js
@@ -251,7 +249,7 @@ const saveProgress = async (wordId, guessed) => {
         words = words.filter((word) => word._id !== wordId);
 
         // Оновлюємо відображення кількості слів
-        totalQuestions.textContent = `Words left: ${words.length}`;
+        totalQuestions.textContent = `${t('words_left')} ${words.length}`;
     } catch (error) {
         console.error('Error saving progress:', error);
     }
@@ -446,7 +444,7 @@ if (clearProgressButton) {
 if (!document.getElementById('logout-btn')) {
     const logoutBtn = document.createElement('button');
     logoutBtn.id = 'logout-btn';
-    logoutBtn.textContent = 'Logout';
+    logoutBtn.textContent = t('logout');
     logoutBtn.addEventListener('click', async () => {
         try {
             const res = await fetch('/api/auth/logout', {

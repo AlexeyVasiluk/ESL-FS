@@ -303,8 +303,8 @@ hr {
 }
 
 ::selection {
-    background: transparent;
-    color: inherit;
+    /*background: transparent;*/
+    /*color: inherit;*/
 }
 
 .clicked {

@@ -5,18 +5,18 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+    <title data-i18n="login.pageTitle">Login</title>
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
 <div class="header">
-    <h1 class="logo"><a href="index.html">ESL club</a></h1>
+    <h1 class="logo"><a href="index.html" data-i18n="header.logo">ESL club</a></h1>
     <div class="menu" id="menu">
         <a href="vocabulary.html" data-i18n="menu_vocabulary" class="accordion-header">Vocabulary</a>
-        <a href="grammar.html" data-i18n="menu_grammar" class="accordion-header">Grammar</a>
-        <a href="listening.html" data-i18n="menu_listening" class="accordion-header">Listening</a>
-        <a href="couch.html" data-i18n="menu_lessons" class="accordion-header">Lessons</a>
-        <a href="job.html" data-i18n="menu_job" class="accordion-header">Job</a>
+        <a href="grammar.html"     data-i18n="menu_grammar"    class="accordion-header">Grammar</a>
+        <a href="listening.html"   data-i18n="menu_listening"  class="accordion-header">Listening</a>
+        <a href="couch.html"       data-i18n="menu_lessons"    class="accordion-header">Lessons</a>
+        <a href="job.html"         data-i18n="menu_job"        class="accordion-header">Job</a>
     </div>
     <select id="language-switcher">
         <option value="ru">Русский</option>
@@ -24,26 +24,47 @@
         <option value="es">Español</option>
     </select>
 </div>
+
 <div class="container">
-    <h2 id="form-title">Реєстрація</h2>
+    <h2 id="form-title" data-i18n="login.formTitle">Register</h2>
+
     <form id="auth-form">
         <div id="username-field">
-            <label for="username">Ім'я користувача:</label>
-            <input type="text" id="username" name="username" placeholder="Введіть ім'я користувача">
+            <label for="username" data-i18n="loginUsernameLabel">User name</label>
+            <input type="text"
+                   id="username"
+                   name="username"
+                   data-i18n-placeholder="loginUsernamePlaceholder"
+                   placeholder="">
         </div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Введіть email" required>
 
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" placeholder="Введіть пароль" required>
+        <label for="email" data-i18n="loginEmailLabel">Email:</label>
+        <input type="email"
+               id="email"
+               name="email"
+               data-i18n-placeholder="loginEmailPlaceholder"
+               placeholder=""
+               required>
 
-        <button type="submit" id="submit-btn">Зареєструватися</button>
+        <label for="password" data-i18n="loginPasswordLabel">Password:</label>
+        <input type="password"
+               id="password"
+               name="password"
+               data-i18n-placeholder="loginPasswordPlaceholder"
+               placeholder=""
+               required>
+
+        <button type="submit" id="submit-btn" data-i18n="loginSubmitBtn">Sign Up</button>
     </form>
-    <button class="toggle-btn" id="toggle-btn">Вже маєте акаунт? Увійдіть тут</button>
+
+    <button class="toggle-btn" id="toggle-btn" data-i18n="loginToggleBtn">
+        Already have an account? Login in here
+    </button>
+
     <p class="message" id="message"></p>
 </div>
 
-<script src="/scripts/lang.js"></script>
+<script type="module" src="/scripts/lang.js"></script>
 <script type="module" src="/scripts/login.js"></script>
 </body>
 </html>
