@@ -1,4 +1,4 @@
-import { t } from './lang.js';
+import { t, translatePage  } from './lang.js';
 
 let isRegister = false;
 
@@ -7,7 +7,25 @@ document.addEventListener('DOMContentLoaded', () => {
     setupAuthForm();
 });
 
+function updateFormTexts() {
+    const formTitle  = document.getElementById('form-title');
+    const submitBtn  = document.getElementById('submit-btn');
+    const toggleBtn  = document.getElementById('toggle-btn');
+
+    if (isRegister) {
+        formTitle.dataset.i18n       = 'registerFormTitle';
+        submitBtn.dataset.i18n       = 'registerBtn';
+        toggleBtn.dataset.i18n       = 'toggleToLoginBtn';
+    } else {
+        formTitle.dataset.i18n       = 'loginFormTitle';
+        submitBtn.dataset.i18n       = 'loginBtn';
+        toggleBtn.dataset.i18n       = 'toggleToRegisterBtn';
+    }
+    translatePage();
+}
+
 function setupAuthForm() {
+    updateFormTexts();
     const formTitle = document.getElementById('form-title');
     const authForm = document.getElementById('auth-form');
     const usernameField = document.getElementById('username-field');
@@ -15,25 +33,12 @@ function setupAuthForm() {
     const toggleBtn = document.getElementById('toggle-btn');
     const messageP = document.getElementById('message');
 
-    // formTitle.textContent       = t('loginFormTitle');
-    // submitBtn.textContent       = t('loginSubmitBtn');
     usernameField.style.display = 'none';
-    // toggleBtn.textContent       = t('toggleToRegisterBtn');
     messageP.textContent        = '';
 
     toggleBtn.addEventListener('click', () => {
         isRegister = !isRegister;
-        if (isRegister) {
-            formTitle.textContent       = t('registerFormTitle');
-            submitBtn.textContent       = t('registerBtn');
-            usernameField.style.display = 'block';
-            toggleBtn.textContent       = t('toggleToLoginBtn');
-        } else {
-            formTitle.textContent       = t('loginFormTitle');
-            submitBtn.textContent       = t('loginBtn');
-            usernameField.style.display = 'none';
-            toggleBtn.textContent       = t('toggleToRegisterBtn');
-        }
+        updateFormTexts();
         messageP.textContent = '';
     });
 
