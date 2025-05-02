@@ -46,8 +46,8 @@ function setupAuthForm() {
 
         const email    = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        let url        = isRegister ? '/api/auth/register' : '/api/auth/login';
-        let data       = { email, password };
+        const url      = isRegister ? '/api/auth/register' : '/api/auth/login';
+        const data     = { email, password };
 
         if (isRegister) {
             data.username = document.getElementById('username').value;
@@ -63,19 +63,21 @@ function setupAuthForm() {
             const resData = await response.json();
 
             if (!response.ok) {
-                const errorMsg = resData.error || (resData.errors && resData.errors[0].msg) || t('loginErrorDefault');
+                const errorMsg = resData.error
+                    || (resData.errors && resData.errors[0].msg)
+                    || t('loginErrorDefault');
                 throw new Error(errorMsg);
             }
 
-            messageP.style.color = 'green';
-            messageP.textContent = t('loginSuccessMessage');
+            messageP.style.color   = 'green';
+            messageP.textContent   = t('loginSuccessMessage');
             setTimeout(() => {
                 window.location.href = '/vocabulary.html';
             }, 50);
 
         } catch (error) {
-            messageP.style.color = 'red';
-            messageP.textContent = error.message;
+            messageP.style.color   = 'red';
+            messageP.textContent   = error.message;
         }
     });
 }
@@ -84,6 +86,7 @@ async function checkAuthStatus() {
     try {
         const res = await fetch('/api/auth/status', { credentials: 'include' });
         if (res.ok) {
+            // Якщо вже авторизовані на сторінці логіну — переходимо до словника
             if (window.location.pathname.endsWith('login.html')) {
                 window.location.href = '/vocabulary.html';
             } else {
