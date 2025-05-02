@@ -30,12 +30,8 @@ app.use('/api/auth', authRoutes);
 const auth = require('./middleware/auth');
 
 // ===== Protected HTML =====
-app.get('/vocabulary', auth, (req, res) => {
+app.get(['/vocabulary', '/vocabulary.html'], auth, (req, res) => {
     res.sendFile(path.join(__dirname, 'private', 'vocabulary.html'));
-});
-
-app.get('/vocabulary.html', (req, res) => {
-    res.redirect('/login.html');
 });
 
 // ===== API: Words =====
