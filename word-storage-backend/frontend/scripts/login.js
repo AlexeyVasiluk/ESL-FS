@@ -4,23 +4,28 @@ let isRegister = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     checkAuthStatus();
+    updateFormTexts();
     setupAuthForm();
 });
 
 function updateFormTexts() {
-    const formTitle  = document.getElementById('form-title');
-    const submitBtn  = document.getElementById('submit-btn');
-    const toggleBtn  = document.getElementById('toggle-btn');
+    const formTitle     = document.getElementById('form-title');
+    const submitBtn     = document.getElementById('submit-btn');
+    const toggleBtn     = document.getElementById('toggle-btn');
+    const usernameField = document.getElementById('username-field');
 
     if (isRegister) {
         formTitle.dataset.i18n       = 'registerFormTitle';
-        submitBtn.dataset.i18n       = 'registerBtn';
+        submitBtn.dataset.i18n       = 'registerSubmitBtn';
         toggleBtn.dataset.i18n       = 'toggleToLoginBtn';
+        usernameField.style.display  = 'block';   // ← показуємо поле
     } else {
         formTitle.dataset.i18n       = 'loginFormTitle';
-        submitBtn.dataset.i18n       = 'loginBtn';
+        submitBtn.dataset.i18n       = 'loginSubmitBtn';
         toggleBtn.dataset.i18n       = 'toggleToRegisterBtn';
+        usernameField.style.display  = 'none';    // ← ховаємо поле
     }
+
     translatePage();
 }
 
@@ -124,4 +129,6 @@ function showLoginForm() {
 
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) logoutBtn.remove();
+
+    updateFormTexts();
 }
