@@ -11,12 +11,17 @@
 <div class="header">
     <h1 class="logo"><a href="index.html">ESL club</a></h1>
     <div class="menu" id="menu">
-        <a href="vocabulary.html" class="accordion-header">Vocabulary</a>
-        <a href="grammar.html" class="accordion-header">Grammar</a>
-        <a href="listening.html" class="accordion-header">Listening</a>
-        <a href="couch.html" class="accordion-header">Lessons</a>
-        <a href="job.html" class="accordion-header">Job</a>
+        <a href="vocabulary.html" data-i18n="menu_vocabulary" class="accordion-header">Vocabulary</a>
+        <a href="grammar.html" data-i18n="menu_grammar" class="accordion-header">Grammar</a>
+        <a href="listening.html" data-i18n="menu_listening" class="accordion-header">Listening</a>
+        <a href="couch.html" data-i18n="menu_lessons" class="accordion-header">Lessons</a>
+        <a href="job.html" data-i18n="menu_job" class="accordion-header">Job</a>
     </div>
+    <select id="language-switcher">
+        <option value="ru">Русский</option>
+        <option value="uk">Українська</option>
+        <option value="es">Español</option>
+    </select>
 </div>
 
 <div class="content-wrapper">
@@ -78,7 +83,8 @@
        </pre>
     </div>
 </div>
-</div>
+
+<script src="/scripts/lang.js"></script>
 <script type="module" src="scripts/index.js"></script>
 </body>
 </html>
