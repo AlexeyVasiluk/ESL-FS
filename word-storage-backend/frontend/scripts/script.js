@@ -23,11 +23,6 @@ let randomIndex = 0;
 let arrayId = '';
 let attemptCount = 1;
 
-function t(key) {
-    const lang = getLang();           // getLang() з lang.js
-    return translations[lang][key] || key;
-}
-
 // UPDATE CATEGORY STATISTICS
 const updateCategoryStats = async () => {
     console.log('updateCategoryStats');
