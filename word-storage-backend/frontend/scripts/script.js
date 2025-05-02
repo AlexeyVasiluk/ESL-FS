@@ -257,8 +257,8 @@ const showResults = () => {
     console.log('showResults');
     resultText = '';
     resultCount = `<div class="result-row">
-        <span style='color: green;'>${t('correct')}: ${correctCount} | </span>
-        <span style='color: red;'>${t('wrong')}: ${wrongCount}</span>
+        <span data-i18n="correct" style='color: green;'>${t('correct')}: ${correctCount} | </span>
+        <span data-i18n="wrong" style='color: red;'>${t('wrong')}: ${wrongCount}</span>
     </div>`;
 
     for (let i = 0; i < answerLog.length; i++) {
@@ -441,6 +441,7 @@ if (clearProgressButton) {
 if (!document.getElementById('logout-btn')) {
     const logoutBtn = document.createElement('button');
     logoutBtn.id = 'logout-btn';
+    logoutBtn.dataset.i18n = 'logout';
     logoutBtn.textContent = t('logout');
     logoutBtn.addEventListener('click', async () => {
         try {

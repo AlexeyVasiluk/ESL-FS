@@ -1,4 +1,3 @@
-// frontend/scripts/locales/uk.js
 export default {
     menu_vocabulary: 'Словник',
     menu_grammar: 'Граматика',
@@ -16,7 +15,9 @@ export default {
     example: 'Приклад:',
     logout: 'Вийти',
     congrats: 'Вітаємо! Ви перемогли!',
-
+    loginErrorDefault: 'Щось пішло не так',
+    loginSuccessMessage: 'Успішно! Ви увійшли в систему.',
+    loginWelcome: 'Вітаємо!',
 
     loginUsernameLabel: "Ім'я користувача:",
     loginUsernamePlaceholder: 'Введіть імʼя користувача',
@@ -30,13 +31,6 @@ export default {
     toggleToRegisterBtn: 'Зареєструватися',
 
     registerFormTitle: 'Реєстрація',
-    registerBtn: 'Зареєструватися',
-    toggleToLoginBtn: 'Вже є акаунт? Увійти!',
-
-    loginLoginFormTitle: 'Вхід',
-    loginLoginBtn: 'Увійти',
-
-    loginErrorDefault: 'Щось пішло не так',
-    loginSuccessMessage: 'Успішно! Ви увійшли в систему.',
-    loginWelcome: 'Вітаємо!'
+    registerSubmitBtn: 'Зареєструватися',
+    toggleToLoginBtn: 'Вже є акаунт? Увійти!'
 };

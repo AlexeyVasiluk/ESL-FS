@@ -1,4 +1,3 @@
-// frontend/scripts/locales/ru.js
 export default {
     menu_vocabulary: 'Словарь',
     menu_grammar: 'Грамматика',
@@ -16,24 +15,22 @@ export default {
     example: 'Пример:',
     logout: 'Выйти',
     congrats: 'Поздравляем! Вы победили!',
+    loginErrorDefault: 'Что-то пошло не так',
+    loginSuccessMessage: 'Успешно! Вы вошли в систему.',
+    loginWelcome: 'Добро пожаловать!',
 
-    loginFormTitle: 'Вход',
     loginUsernameLabel: 'Имя пользователя:',
     loginUsernamePlaceholder: 'Введите имя пользователя',
     loginEmailLabel: 'Емейл:',
     loginEmailPlaceholder: 'Введите емейл',
     loginPasswordLabel: 'Пароль:',
     loginPasswordPlaceholder: 'Введите пароль',
+
+    loginFormTitle: 'Вход',
     loginSubmitBtn: 'Войти',
-
-
-    loginLoginFormTitle: 'Вход',
-    loginLoginBtn: 'Войти',
     toggleToRegisterBtn: 'Зарегистрироваться',
+
     registerFormTitle: 'Регистрация',
-    registerBtn: 'Зарегистрироваться',
-    toggleToLoginBtn: 'Уже есть аккаунт? Войти',
-    loginErrorDefault: 'Что-то пошло не так',
-    loginSuccessMessage: 'Успешно! Вы вошли в систему.',
-    loginWelcome: 'Добро пожаловать!'
+    registerSubmitBtn: 'Зарегистрироваться',
+    toggleToLoginBtn: 'Уже есть аккаунт? Войти!'
 };

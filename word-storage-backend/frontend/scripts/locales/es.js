@@ -1,4 +1,3 @@
-// frontend/scripts/locales/es.js
 export default {
     menu_vocabulary: 'Vocabulario',
     menu_grammar: 'Gramática',
@@ -16,23 +15,22 @@ export default {
     example: 'Ejemplo:',
     logout: 'Cerrar sesión',
     congrats: '¡Felicidades! ¡Has ganado!',
+    loginErrorDefault: 'Algo salió mal',
+    loginSuccessMessage: '¡Éxito! Has iniciado sesión.',
+    loginWelcome: '¡Bienvenido!',
 
-    loginFormTitle: 'Autorización',
     loginUsernameLabel: 'Nombre de usuario:',
     loginUsernamePlaceholder: 'Ingresa nombre de usuario',
     loginEmailLabel: 'Correo electrónico:',
     loginEmailPlaceholder: 'Ingresa email',
     loginPasswordLabel: 'Contraseña:',
     loginPasswordPlaceholder: 'Ingresa contraseña',
-    loginSubmitBtn: 'Registrarse',
 
-    loginLoginFormTitle: 'Iniciar sesión',
-    loginLoginBtn: 'Ingresar',
+    loginFormTitle: 'Autorización',
+    loginSubmitBtn: 'Registrarse',
     toggleToRegisterBtn: 'Registrarse',
+
     registerFormTitle: 'Registro',
-    registerBtn: 'Registrarse',
-    toggleToLoginBtn: '¿Ya tienes cuenta? Entrar',
-    loginErrorDefault: 'Algo salió mal',
-    loginSuccessMessage: '¡Éxito! Has iniciado sesión.',
-    loginWelcome: '¡Bienvenido!'
+    registerSubmitBtn: 'Registrarse',
+    toggleToLoginBtn: '¿Ya tienes cuenta? Entrar'
 };
