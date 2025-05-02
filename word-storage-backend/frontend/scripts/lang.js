@@ -1,7 +1,3 @@
-
-// frontend/scripts/lang.js
-
-// 1) Словник перекладів
 const translations = {
     ru: {
         menu_vocabulary:   'Словарь',
@@ -13,9 +9,12 @@ const translations = {
         button_check:      'Проверить',
         button_endGame:    'Закончить игру',
         help:              'Помощь',
-        wordsByTheme:      'Слова по темам'
-
-        // ... інші ключі
+        wordsByTheme:      'Слова по темам',
+        words_left:        'Осталось слов:',
+        correct:           'Правильно',
+        wrong:             'Неправильно',
+        example:           'Пример:',
+        congrats:          'Поздравляем! Вы победили!'
     },
     uk: {
         menu_vocabulary:   'Словник',
@@ -27,8 +26,12 @@ const translations = {
         button_check:      'Перевірити',
         button_endGame:    'Завершити гру',
         help:              'Допомога',
-        wordsByTheme:      'Слова по тематикам'
-        // ... інші ключі
+        wordsByTheme:      'Слова по тематикам',
+        words_left:         'Слів залишилося:',
+        correct:            'Правильно',
+        wrong:              'Неправильно',
+        example:            'Приклад:',
+        congrats:           'Вітаємо! Ви перемогли!'
     },
     es: {
         menu_vocabulary:   'Vocabulario',
@@ -40,20 +43,23 @@ const translations = {
         button_check:      'Comprobar',
         button_endGame:    'Terminar juego',
         help:              'Ayuda',
-        wordsByTheme:      'Palabras por tema'
-        // ... інші ключі
+        wordsByTheme:      'Palabras por tema',
+        words_left:        'Palabras restantes:',
+        correct:           'Correcto',
+        wrong:             'Incorrecto',
+        example:           'Ejemplo:',
+        congrats:          '¡Felicidades! ¡Has ganado!'
     }
 };
 
-// 2) Функції для читання/запису мови в localStorage
 function getLang() {
     return localStorage.getItem('lang') || 'ru';
 }
+
 function setLang(lang) {
     localStorage.setItem('lang', lang);
 }
 
-// 3) Основна функція, що міняє текст на сторінці
 function translatePage() {
     const lang = getLang();
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -64,10 +70,8 @@ function translatePage() {
     });
 }
 
-// 4) Підключаємось до селектора і виводимо початкову мову
 document.addEventListener('DOMContentLoaded', () => {
     const switcher = document.getElementById('language-switcher');
-    // встановлюємо селектор у поточну мову
     switcher.value = getLang();
     switcher.addEventListener('change', e => {
         setLang(e.target.value);

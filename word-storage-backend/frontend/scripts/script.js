@@ -23,6 +23,11 @@ let randomIndex = 0;
 let arrayId = '';
 let attemptCount = 1; // Лічильник спроб
 
+function t(key) {
+    const lang = getLang();           // getLang() з lang.js
+    return translations[lang][key] || key;
+}
+
 // UPDATE CATEGORY STATISTICS
 const updateCategoryStats = async () => {
     console.log('updateCategoryStats');
@@ -134,14 +139,12 @@ const chooseWordsArray = async (category) => {
 
 // START GAME
 const startGame = () => {
-    console.log('Start GAME');
-    // currentWordIndex = 0;
     statsElement.innerHTML = '';
     resultText = '';
     answerLog = [];
     correctCount = 0;
     wrongCount = 0;
-    totalQuestions.textContent = `Words left: ${words.length}`;
+    totalQuestions.textContent = `${t('words_left')} ${words.length}`;
     wrapper.style.display = 'inline-block';
     guessInput.focus();
     showWord();
@@ -258,7 +261,10 @@ const saveProgress = async (wordId, guessed) => {
 const showResults = () => {
     console.log('showResults');
     resultText = '';
-    resultCount = `<div class="result-row"><span style='color: green;'>Correct: ${correctCount} | </span><span style='color: red;'>Wrong: ${wrongCount}</span></div>`;
+    resultCount = `<div class="result-row">
+        <span style='color: green;'>${t('correct')}: ${correctCount} | </span>
+        <span style='color: red;'>${t('wrong')}: ${wrongCount}</span>
+    </div>`;
 
     for (let i = 0; i < answerLog.length; i++) {
         const answer = answerLog[i];
@@ -281,7 +287,7 @@ const handleIncorrectAnswer = (answer) => {
     resultText = `<div class="result-row">
         ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
         <div id="example-sentense-incorrect" class="hide">
-            <span style="font-weight: bold;"> Example: </span>${answer.examples}
+            <span style="font-weight: bold;">${t('example')}</span> ${answer.examples}
         </div>
     </div>`;
 
@@ -374,35 +380,25 @@ function checkResult(clickedWords, wordObjects) {
                 const firstParent = document.getElementById('userVersion'); // Контейнер з обраними словами
                 const secondParent = document.getElementById('originalWords'); // Контейнер з оригінальними словами
                 const nestedElements = Array.from(firstParent.children); // Слова в контейнері
-
-                // Переміщуємо слова назад у вихідний контейнер
                 nestedElements.forEach(function (nestedElement) {
                     secondParent.appendChild(nestedElement);
                 });
-
-                // Показуємо повідомлення про помилку
                 document.getElementById('errorInSentence').classList.remove('hide');
-                // document.getElementById('example-sentense-incorrect').classList.remove('hide');
-
                 if(document.getElementById('example-sentense-incorrect')) {
                     document.getElementById('example-sentense-incorrect').classList.remove('hide');
                 }
-
                 setTimeout(function () {
                     document.getElementById('errorInSentence').classList.add('hide');
                 }, 1000);
-
-                // Додаємо обробники подій для повторної спроби
                 attachEventListeners(wordObjects);
-
-                emptyWordList(); // Очищуємо список
-                return false; // Завершуємо функцію
+                emptyWordList();
+                return false;
             }
         }
     }
     document.getElementById('example-sentense-incorrect').classList.remove('hide');
-    emptyWordList(); // Якщо слова правильні, очищуємо список
-    return true; // Завершуємо функцію
+    emptyWordList();
+    return true;
 }
 
 
@@ -410,10 +406,10 @@ function checkResult(clickedWords, wordObjects) {
 const endGameSequence = () => {
     wrapper.style.display = 'none';
     winModal.style.display = 'flex';
+    winModal.querySelector('h1').textContent = t('congrats');
     setTimeout(() => {
         location.reload();
     }, 3000);
-    // CLOSE WIN MODAL on click
     window.addEventListener('click', (event) => {
         if (event.target === winModal) {
             winModal.style.display = 'none';
