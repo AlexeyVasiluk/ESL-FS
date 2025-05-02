@@ -18,14 +18,14 @@ export default {
     congrats: 'Вітаємо! Ви перемогли!',
 
     loginPageTitle: 'Вхід',
-    loginFormTitle: 'Авторизація',
+    loginFormTitle: 'Вхід',
     loginUsernameLabel: "Ім'я користувача:",
     loginUsernamePlaceholder: 'Введіть імʼя користувача',
     loginEmailLabel: 'Емейл:',
     loginEmailPlaceholder: 'Введіть емейл',
     loginPasswordLabel: 'Пароль:',
     loginPasswordPlaceholder: 'Введіть пароль',
-    loginSubmitBtn: 'Зареєструватися',
+    loginSubmitBtn: 'Увійти',
     loginToggleBtn: 'Вже маєте акаунт? Увійдіть тут',
 
     loginLoginFormTitle: 'Вхід',
