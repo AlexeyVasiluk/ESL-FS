@@ -17,7 +17,6 @@ export default {
     logout: 'Выйти',
     congrats: 'Поздравляем! Вы победили!',
 
-    loginPageTitle: 'Вход',
     loginFormTitle: 'Вход',
     loginUsernameLabel: 'Имя пользователя:',
     loginUsernamePlaceholder: 'Введите имя пользователя',
@@ -26,14 +25,14 @@ export default {
     loginPasswordLabel: 'Пароль:',
     loginPasswordPlaceholder: 'Введите пароль',
     loginSubmitBtn: 'Войти',
-    loginToggleBtn: 'Уже есть аккаунт? Войти здесь',
+
 
     loginLoginFormTitle: 'Вход',
     loginLoginBtn: 'Войти',
-    loginToggleToRegister: 'Зарегистрироваться',
-    loginRegisterFormTitle: 'Регистрация',
-    loginRegisterBtn: 'Зарегистрироваться',
-    loginToggleToLogin: 'Уже есть аккаунт? Войти',
+    toggleToRegisterBtn: 'Зарегистрироваться',
+    registerFormTitle: 'Регистрация',
+    registerBtn: 'Зарегистрироваться',
+    toggleToLoginBtn: 'Уже есть аккаунт? Войти',
     loginErrorDefault: 'Что-то пошло не так',
     loginSuccessMessage: 'Успешно! Вы вошли в систему.',
     loginWelcome: 'Добро пожаловать!'

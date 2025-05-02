@@ -17,23 +17,25 @@ export default {
     logout: 'Вийти',
     congrats: 'Вітаємо! Ви перемогли!',
 
-    loginPageTitle: 'Вхід',
-    loginFormTitle: 'Вхід',
+
     loginUsernameLabel: "Ім'я користувача:",
     loginUsernamePlaceholder: 'Введіть імʼя користувача',
     loginEmailLabel: 'Емейл:',
     loginEmailPlaceholder: 'Введіть емейл',
     loginPasswordLabel: 'Пароль:',
     loginPasswordPlaceholder: 'Введіть пароль',
+
+    loginFormTitle: 'Вхід',
     loginSubmitBtn: 'Увійти',
-    loginToggleBtn: 'Вже маєте акаунт? Увійдіть тут',
+    toggleToRegisterBtn: 'Зареєструватися',
+
+    registerFormTitle: 'Реєстрація',
+    registerBtn: 'Зареєструватися',
+    toggleToLoginBtn: 'Вже є акаунт? Увійти!',
 
     loginLoginFormTitle: 'Вхід',
     loginLoginBtn: 'Увійти',
-    loginToggleToRegister: 'Зареєструватися',
-    loginRegisterFormTitle: 'Реєстрація',
-    loginRegisterBtn: 'Зареєструватися',
-    loginToggleToLogin: 'Вже є акаунт? Увійти',
+
     loginErrorDefault: 'Щось пішло не так',
     loginSuccessMessage: 'Успішно! Ви увійшли в систему.',
     loginWelcome: 'Вітаємо!'

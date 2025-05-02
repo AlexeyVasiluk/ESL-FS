@@ -1,4 +1,3 @@
-// frontend/scripts/login.js
 import { t } from './lang.js';
 
 let isRegister = false;
@@ -16,25 +15,24 @@ function setupAuthForm() {
     const toggleBtn = document.getElementById('toggle-btn');
     const messageP = document.getElementById('message');
 
-    // Ініціалізуємо тексти
-    formTitle.textContent       = t('loginFormTitle');
-    submitBtn.textContent       = t('loginLoginBtn');
+    // formTitle.textContent       = t('loginFormTitle');
+    // submitBtn.textContent       = t('loginSubmitBtn');
     usernameField.style.display = 'none';
-    toggleBtn.textContent       = t('loginToggleToRegister');
+    // toggleBtn.textContent       = t('toggleToRegisterBtn');
     messageP.textContent        = '';
 
     toggleBtn.addEventListener('click', () => {
         isRegister = !isRegister;
         if (isRegister) {
-            formTitle.textContent       = t('loginRegisterFormTitle');
-            submitBtn.textContent       = t('loginRegisterBtn');
+            formTitle.textContent       = t('registerFormTitle');
+            submitBtn.textContent       = t('registerBtn');
             usernameField.style.display = 'block';
-            toggleBtn.textContent       = t('loginToggleToLogin');
+            toggleBtn.textContent       = t('toggleToLoginBtn');
         } else {
             formTitle.textContent       = t('loginFormTitle');
             submitBtn.textContent       = t('loginBtn');
             usernameField.style.display = 'none';
-            toggleBtn.textContent       = t('loginToggleToRegister');
+            toggleBtn.textContent       = t('toggleToRegisterBtn');
         }
         messageP.textContent = '';
     });
@@ -81,7 +79,6 @@ function setupAuthForm() {
 }
 
 function checkAuthStatus() {
-    console.log('checkAuthStatus викликано');
     if (document.cookie && document.cookie.indexOf('token=') !== -1) {
         if (window.location.pathname === '/login.html') {
             window.location.href = '/vocabulary';

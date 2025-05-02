@@ -16,7 +16,7 @@ export default {
     example: 'Ejemplo:',
     logout: 'Cerrar sesión',
     congrats: '¡Felicidades! ¡Has ganado!',
-    loginPageTitle: 'Iniciar sesión',
+
     loginFormTitle: 'Autorización',
     loginUsernameLabel: 'Nombre de usuario:',
     loginUsernamePlaceholder: 'Ingresa nombre de usuario',
@@ -25,13 +25,13 @@ export default {
     loginPasswordLabel: 'Contraseña:',
     loginPasswordPlaceholder: 'Ingresa contraseña',
     loginSubmitBtn: 'Registrarse',
-    loginToggleBtn: '¿Ya tienes cuenta? Inicia aquí',
+
     loginLoginFormTitle: 'Iniciar sesión',
     loginLoginBtn: 'Ingresar',
-    loginToggleToRegister: 'Registrarse',
-    loginRegisterFormTitle: 'Registro',
-    loginRegisterBtn: 'Registrarse',
-    loginToggleToLogin: '¿Ya tienes cuenta? Entrar',
+    toggleToRegisterBtn: 'Registrarse',
+    registerFormTitle: 'Registro',
+    registerBtn: 'Registrarse',
+    toggleToLoginBtn: '¿Ya tienes cuenta? Entrar',
     loginErrorDefault: 'Algo salió mal',
     loginSuccessMessage: '¡Éxito! Has iniciado sesión.',
     loginWelcome: '¡Bienvenido!'
