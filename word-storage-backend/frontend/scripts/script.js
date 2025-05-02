@@ -1,3 +1,5 @@
+import { getLang, t } from './lang.js';
+
 const wordElement = document.getElementById('word');
 const guessInput = document.getElementById('guessInput');
 const checkAnswerBtn = document.getElementById('checkAnswer');
