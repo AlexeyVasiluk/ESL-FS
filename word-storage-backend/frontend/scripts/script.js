@@ -189,6 +189,7 @@ const checkGuess = (event) => {
             // Якщо відповідь неправильна
             guessInput.style.backgroundColor = "#ff0000";
             wrongCount++; // Збільшуємо лічильник неправильних відповідей
+            console.log('WRONG-COUNT-1', wrongCount);
         }
 
         // Додаємо запис відповіді в журнал
@@ -252,6 +253,7 @@ const saveProgress = async (wordId, guessed) => {
 const showResults = () => {
     resultText = '';
     correctCountElement.textContent = `${correctCount}`;
+    console.log('WRONG-COUNT-2', wrongCount);
     wrongCountElement.textcontent = `${wrongCount}`;
 
     for (let i = 0; i < answerLog.length; i++) {
