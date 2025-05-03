@@ -247,11 +247,7 @@ const saveProgress = async (wordId, guessed) => {
 
         // Оновлюємо відображення кількості слів
         // totalQuestions.textContent = `${t('words_left')} ${words.length}`;
-        totalQuestions.textContent = `
-            <span data-i18n="words_left">${t('words_left')}</span>
-            <span class="words-count">${words.length}</span>
-        `;
-
+        totalQuestions.innerHTML += words.length;
     } catch (error) {
         console.error('Error saving progress:', error);
     }
