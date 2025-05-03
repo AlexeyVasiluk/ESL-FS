@@ -5,7 +5,7 @@ const guessInput = document.getElementById('guessInput');
 const checkAnswerBtn = document.getElementById('checkAnswer');
 const countElement = document.getElementById('count');
 const statsElement = document.getElementById('stats');
-const totalQuestions = document.getElementById('total_question');
+const totalQuestions = document.getElementById('total_question_number');
 const wrapper = document.getElementById('wrapper');
 const endGameBtn = document.getElementsByClassName('end-game');
 const buttonsArray = document.querySelectorAll('.words-button');
@@ -139,7 +139,7 @@ const startGame = () => {
     answerLog = [];
     correctCount = 0;
     wrongCount = 0;
-    totalQuestions.textContent = `${t('words_left')} ${words.length}`;
+    totalQuestions.textContent = `${words.length}`;
     wrapper.style.display = 'inline-block';
     guessInput.focus();
     showWord();
@@ -247,7 +247,7 @@ const saveProgress = async (wordId, guessed) => {
 
         // Оновлюємо відображення кількості слів
         // totalQuestions.textContent = `${t('words_left')} ${words.length}`;
-        totalQuestions.innerHTML += words.length;
+        totalQuestions.textContent = `${words.length}`;
     } catch (error) {
         console.error('Error saving progress:', error);
     }
