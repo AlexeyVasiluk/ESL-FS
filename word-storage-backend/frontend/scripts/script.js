@@ -23,6 +23,8 @@ let resultCount = '';
 let randomIndex = 0;
 let arrayId = '';
 let attemptCount = 1;
+correctCountElement.textContent = `0`;
+wrongCountElement.textContent = `0`;
 
 // UPDATE CATEGORY STATISTICS
 const updateCategoryStats = async () => {
@@ -250,7 +252,7 @@ const saveProgress = async (wordId, guessed) => {
 const showResults = () => {
     resultText = '';
     correctCountElement.textContent = `${correctCount}`;
-    correctCountElement.textcontent = `${wrongCount}`;
+    wrongCountElement.textcontent = `${wrongCount}`;
 
     for (let i = 0; i < answerLog.length; i++) {
         const answer = answerLog[i];
