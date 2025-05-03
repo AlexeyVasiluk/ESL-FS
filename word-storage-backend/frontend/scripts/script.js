@@ -164,35 +164,28 @@ const showWord = () => {
 const checkGuess = (event) => {
     console.log('checkGuess');
 
-    // Асинхронна функція перевірки відповіді
     const goCheck = async () => {
         const guess = guessInput.value.trim().toLowerCase();
         const currentWord = words[randomIndex];
 
-        // Перевірка відповіді: чи співпадає введений текст з перекладом слова
         const isCorrect = guess === currentWord.translation.trim().toLowerCase();
         if (isCorrect) {
             guessInput.style.backgroundColor = "#5bc20f";
-            correctCount++; // Збільшуємо лічильник правильних відповідей
+            correctCount++;
 
             try {
-                // Зберігаємо прогрес: слово відгадано
                 await saveProgress(currentWord._id, true);
                 console.log(`Updated word ${currentWord.word} in database`);
             } catch (error) {
                 console.error('Error updating word in database:', error);
             }
 
-            // Якщо відповідь правильна, видаляємо слово з масиву
             words = words.filter((word) => word._id !== currentWord._id);
         } else {
-            // Якщо відповідь неправильна
             guessInput.style.backgroundColor = "#ff0000";
-            wrongCount++; // Збільшуємо лічильник неправильних відповідей
-            console.log('WRONG-COUNT-1', wrongCount);
+            wrongCount++;
         }
 
-        // Додаємо запис відповіді в журнал
         answerLog.push({
             question: currentWord.word,
             answer: currentWord.translation,
@@ -201,22 +194,17 @@ const checkGuess = (event) => {
             examples: currentWord.example,
         });
 
-        // Оновлюємо результати гри (відображаємо кількість правильних і неправильних відповідей)
         showResults();
 
-        // Оновлюємо статистику категорій
         await updateCategoryStats();
 
-        // Якщо більше немає слів, завершуємо гру
         if (words.length === 0) {
             endGameSequence();
         }
     };
 
-    // Виконати перевірку після натискання кнопки або Enter
     checkAnswerBtn.onclick = goCheck;
 
-    // Якщо натиснуто Enter, запускаємо перевірку
     if (event.key === "Enter") {
         goCheck();
     }
@@ -224,7 +212,6 @@ const checkGuess = (event) => {
 
 // SAVE PROGRESS to DB
 const saveProgress = async (wordId, guessed) => {
-    console.log('saveProgress');
     try {
         // Надсилаємо POST-запит до маршруту /api/progress з даними про слово та його статусом
         const response = await fetch('/api/progress', {
@@ -253,8 +240,7 @@ const saveProgress = async (wordId, guessed) => {
 const showResults = () => {
     resultText = '';
     correctCountElement.textContent = `${correctCount}`;
-    console.log('WRONG-COUNT-2', wrongCount);
-    wrongCountElement.textcontent = `${wrongCount}`;
+    wrongCountElement.textContent = `${wrongCount}`;
 
     for (let i = 0; i < answerLog.length; i++) {
         const answer = answerLog[i];
