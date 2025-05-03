@@ -3,7 +3,8 @@ import { getLang, t } from './lang.js';
 const wordElement = document.getElementById('word');
 const guessInput = document.getElementById('guessInput');
 const checkAnswerBtn = document.getElementById('checkAnswer');
-const countElement = document.getElementById('count');
+const correctCountElement = document.getElementById('correct_numbers');
+const wrongCountElement = document.getElementById('wrong_numbers');
 const statsElement = document.getElementById('stats');
 const totalQuestions = document.getElementById('total_question_number');
 const wrapper = document.getElementById('wrapper');
@@ -233,20 +234,12 @@ const saveProgress = async (wordId, guessed) => {
             credentials: 'include' // надсилаємо куки для авторизації
         });
 
-        // Якщо відповідь не успішна – кидаємо помилку
         if (!response.ok) {
             throw new Error(`Failed to update progress (${response.status})`);
         }
 
-        // Парсимо відповідь у форматі JSON
         const resData = await response.json();
-        console.log(`Progress updated for word ID: ${wordId}`, resData);
-
-        // Видаляємо слово з локального масиву, щоб користувач не бачив його знову
         words = words.filter((word) => word._id !== wordId);
-
-        // Оновлюємо відображення кількості слів
-        // totalQuestions.textContent = `${t('words_left')} ${words.length}`;
         totalQuestions.textContent = `${words.length}`;
     } catch (error) {
         console.error('Error saving progress:', error);
@@ -256,16 +249,8 @@ const saveProgress = async (wordId, guessed) => {
 // SHOW RESULTS
 const showResults = () => {
     resultText = '';
-    resultCount = `<div class="result-row">
-      <span style="color: green;">
-        <span data-i18n="correct"></span>: 
-        <span class="correct-count">${correctCount}</span> |
-      </span>
-      <span style="color: red;">
-        <span data-i18n="wrong"></span>: 
-        <span class="wrong-count">${wrongCount}</span>
-      </span>
-    </div>`;
+    correctCountElement.textContent = `${correctCount}`;
+    correctCountElement.textcontent = `${wrongCount}`;
 
     for (let i = 0; i < answerLog.length; i++) {
         const answer = answerLog[i];
@@ -278,7 +263,6 @@ const showResults = () => {
         }
     }
 
-    countElement.innerHTML = resultCount;
     statsElement.innerHTML = resultText;
 };
 
