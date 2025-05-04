@@ -99,31 +99,20 @@ const fetchProgress = async () => {
 };
 
 const chooseWordsArray = async (category) => {
-    console.log('chooseWordsArray');
     try {
-        // Завантажуємо ВСІ слова для заданої категорії
         const data = await fetchWords(category);
-        console.log('CHOOSED WORDS:', data);
-
-        // Завантажуємо дані прогресу користувача
         const progress = await fetchProgress();
-        console.log('USER POGRESS:', progress);
-
-        // Фільтруємо слова: виключаємо ті, які вже відгадані
         words = data.filter((word) => {
             const userWord = progress.find((p) => p.wordId === word._id);
             // Якщо запис існує і його статус "guessed", слово виключається
             return !(userWord && userWord.status === 'guessed');
         });
-
-        console.log('WORDS (filtered):', words);
-
         arrayId = category;
-        console.log('arrayId(category_name):', arrayId);
         startGame();
     } catch (error) {
         console.error('Error choosing words array:', error);
     }
+    document.getElementById('vocabulary-content').classList.toggle('expanded');
 };
 
 const startGame = () => {
@@ -437,13 +426,11 @@ help[0].addEventListener('click', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     const header  = document.getElementById('vocabulary-header');
-    const content = document.getElementById('vocabulary-content');
+    const vocabularyContent = document.getElementById('vocabulary-content');
     const menuStatus = document.getElementById('vocabulary-section');
 
-    // content.classList.add('expanded');
-
     header.addEventListener('click', () => {
-        content.classList.toggle('expanded');
+        vocabularyContent.classList.toggle('expanded');
         menuStatus.classList.toggle('active');
     });
 });

@@ -34,10 +34,5 @@ export default {
     registerSubmitBtn: 'Registrarse',
     toggleToLoginBtn: '¿Ya tienes cuenta? Entrar',
     makeSentence: 'Formar oraciones a partir del conjunto de palabras:',
-    wrongAnswer: 'Lamentablemente eso es incorrecto, la respuesta correcta está a continuación.',
-    rules: 'Elija un conjunto de palabras, por ejemplo: VERBOS (el verde muestra la cantidad de palabras aprendidas, el rojo muestra las palabras que quedan por aprender). \n' +
-        'Las reglas son lo más simples posibles:\n' +
-        '- junto a la palabra ucraniana, ingrese la traducción al inglés y presione ENTER o la tecla "Verificar respuesta"; \n' +
-        '- si ingresó la respuesta incorrecta, el sistema le dirá la palabra correcta y le sugerirá crear una oración usando esa palabra en contexto para una mejor memorización; \n' +
-        'Si te cansas o quieres elegir otro grupo de palabras, haz clic en FINALIZAR JUEGO -> tu progreso se guardará y podrás volver a él más tarde.'
+    wrongAnswer: 'Elija un conjunto de palabras, por ejemplo: VERBOS (el verde muestra la cantidad de palabras aprendidas, el rojo muestra las palabras que quedan por aprender). Las reglas son lo más simples posible: junto a la palabra ucraniana, ingrese la traducción al inglés y presione ENTER o la tecla "Verificar" para verificar. Si ingresa la respuesta incorrecta, el sistema sugerirá la palabra correcta y le sugerirá hacer una oración usando esa palabra en contexto para una mejor memorización. Si estás cansado o quieres elegir otro grupo de palabras, haz clic en "Finalizar juego". Tu progreso se guardará y podrás volver a él más tarde.'
 };
