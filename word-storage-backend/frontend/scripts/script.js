@@ -248,7 +248,7 @@ function emptyWordList() {
         element.classList.remove('hide');
     });
     setTimeout(() => {
-        document.getElementById('makeSentence').classList.add('hide');
+        // document.getElementById('makeSentence').classList.add('hide');
         showWord();
     }, 2000);
 }
@@ -307,6 +307,7 @@ function checkResult(clickedWords, wordObjects) {
                     secondParent.appendChild(nestedElement);
                 });
                 document.getElementById('errorInSentence').classList.remove('hide');
+                document.getElementById('makeSentence').classList.add('hide');
                 if(document.getElementById('example-sentense-incorrect')) {
                     document.getElementById('example-sentense-incorrect').classList.remove('hide');
                 }
