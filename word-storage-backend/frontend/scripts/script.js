@@ -438,11 +438,12 @@ help[0].addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const header  = document.getElementById('vocabulary-header');
     const content = document.getElementById('vocabulary-content');
+    const menuStatus = document.getElementById('vocabulary-section');
 
-    // Якщо ви хочете, щоб спочатку було розкрито (active)
-    content.classList.add('expanded');
+    // content.classList.add('expanded');
 
     header.addEventListener('click', () => {
         content.classList.toggle('expanded');
+        menuStatus.classList.toggle('active');
     });
 });

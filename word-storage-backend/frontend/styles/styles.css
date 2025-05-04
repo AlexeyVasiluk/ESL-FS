@@ -263,7 +263,7 @@ hr {
     flex-wrap: wrap;
 }
 
-.accordion-content.base {
+.accordion-content.expanded {
     display: flex;
 }
 
@@ -470,6 +470,10 @@ button:active {
     position: absolute;
     right: 100px;
     top: 10px;
+}
+
+.expanded {
+    display: block;
 }
 
 @media screen and (max-width: 1023px) {
