@@ -115,6 +115,7 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
     content: '\25B6';
     float: right;
     margin-left: 5px;
+    margin-top: -2px;
 }
 
 .help.active::after {
@@ -130,7 +131,7 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
     display: block;
     position: absolute;
     background: #fff;
-    margin-top: 60px;
+    margin-top: 50px;
     right: 0;
     left: 0;
     height: 50%;
@@ -267,6 +268,17 @@ hr {
     display: flex;
 }
 
+.menu-item {
+    cursor: pointer;
+    color: #000000;
+    font-weight: bold;
+    caret-color: transparent;
+    display: block;
+    text-transform: uppercase;
+    padding: 5px 5px 5px 0;
+    text-align: center;
+}
+
 .accordion-header {
     cursor: pointer;
     color: #000000;
@@ -276,6 +288,7 @@ hr {
     text-transform: uppercase;
     padding: 5px 5px 5px 0;
     text-align: center;
+    background-color: #bbb4b4;
 }
 
 .accordion-section {
@@ -468,7 +481,7 @@ button:active {
     width: fit-content;
     order: 2;
     position: absolute;
-    right: 100px;
+    right: 110px;
     top: 10px;
 }
 
