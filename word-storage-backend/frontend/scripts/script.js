@@ -142,11 +142,9 @@ const checkGuess = (event) => {
 
             try {
                 await saveProgress(currentWord._id, true);
-                console.log(`Updated word ${currentWord.word} in database`);
             } catch (error) {
                 console.error('Error updating word in database:', error);
             }
-
             words = words.filter((word) => word._id !== currentWord._id);
         } else {
             guessInput.style.backgroundColor = "#ff0000";
@@ -252,7 +250,7 @@ function emptyWordList() {
     setTimeout(() => {
         document.getElementById('makeSentence').classList.add('hide');
         showWord();
-    }, 1000);
+    }, 2000);
 }
 
 const createWordObjects = (inputString) => {
@@ -314,7 +312,7 @@ function checkResult(clickedWords, wordObjects) {
                 }
                 setTimeout(function () {
                     document.getElementById('errorInSentence').classList.add('hide');
-                }, 1000);
+                }, 2000);
                 attachEventListeners(wordObjects);
                 emptyWordList();
                 return false;
