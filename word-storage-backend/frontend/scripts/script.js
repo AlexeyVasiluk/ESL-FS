@@ -265,7 +265,7 @@ const handleIncorrectAnswer = (answer) => {
             <span style="font-weight: bold;">${t('example')}</span> ${answer.examples}
         </div>
     </div>`;
-
+    document.getElementById('makeSentence').classList.remove('hide');
     const wordObjects = createWordObjects(String(answer.examples));
     const shuffledWordObjects = shuffleWords(wordObjects);
 
@@ -294,6 +294,7 @@ function emptyWordList() {
         element.classList.remove('hide');
     });
     setTimeout(() => {
+        document.getElementById('makeSentence').classList.add('hide');
         showWord();
     }, 1000);
 }

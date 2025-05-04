@@ -18,6 +18,7 @@ body {
 .content-wrapper {
     width: 100%;
     box-sizing: border-box;
+    margin-top: 10px;
 }
 
 .czr-wp-the-content {
@@ -197,9 +198,17 @@ hr {
 }
 
 #count {
-    text-align: left;
+    text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+.correct-block {
+    color: green;
+}
+
+.wrong-block {
+    color: red;
 }
 
 .page-wrapper {
@@ -332,19 +341,36 @@ hr {
 }
 
 button {
-    background-color: transparent;
-    color: black;
-    border: 1px solid black;
-    min-height: 40px;
-    width: 200px;
-    display: inline-block;
-    font-size: 20px;
-    font-weight: bold;
-    text-decoration: none;
+    /*background-color: transparent;*/
+    /*color: black;*/
+    /*border: 1px solid black;*/
+    /*min-height: 40px;*/
+    /*width: 200px;*/
+    /*display: inline-block;*/
+    /*font-size: 20px;*/
+    /*font-weight: bold;*/
+    /*text-decoration: none;*/
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    /*margin-top: 10px;*/
+    /*margin-bottom: 10px;*/
+}
+
+#logout-btn {
+    height: 40px;
+    min-width: 100px;
+    position: absolute;
+    right: 10px;
+    top: 50px;
+}
+
+#clear-progress {
+    height: 40px;
+    min-width: 100px;
+    position: absolute;
+    left: 10px;
+    top: 55px;
+    background: lightcoral;
 }
 
 button:hover {
@@ -377,14 +403,11 @@ button:active {
     font-weight: bold;
 }
 
+.words-left {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
-/*LOGIN*/
-/*body {*/
-/*    font-family: Arial, sans-serif;*/
-/*    background: #f2f2f2;*/
-/*    margin: 0;*/
-/*    padding: 20px;*/
-/*}*/
 .container {
     max-width: 400px;
     margin: 50px auto;
@@ -438,7 +461,16 @@ button:active {
     margin-top: 10px;
     font-weight: bold;
 }
-/*Registration*/
+
+#language-switcher {
+    text-align: left;
+    cursor: pointer;
+    width: fit-content;
+    order: 2;
+    position: absolute;
+    right: 100px;
+    top: 10px;
+}
 
 @media screen and (max-width: 1023px) {
     body {
