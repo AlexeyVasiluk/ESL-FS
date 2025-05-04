@@ -26,7 +26,6 @@ correctCountElement.textContent = `0`;
 wrongCountElement.textContent = `0`;
 
 const updateCategoryStats = async () => {
-    console.log('updateCategoryStats');
     try {
         const response = await fetch('/api/category-stats', {
             method: 'GET',
@@ -36,11 +35,9 @@ const updateCategoryStats = async () => {
         const stats = await response.json();
 
         stats.forEach((stat) => {
-            const category = stat._id; // Наприклад, "verbs_moving"
-            const guessedCount = stat.guessed; // Кількість відгаданих слів для цього користувача
-            const totalCount = stat.total;     // Загальна кількість слів у категорії
-
-            // Знаходимо кнопку для цієї категорії
+            const category = stat._id;
+            const guessedCount = stat.guessed;
+            const totalCount = stat.total;
             const button = document.getElementById(category);
             if (button) {
                 let statSpan = button.querySelector('.stats');
@@ -62,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 buttonsArray.forEach((button) => {
-    console.log('buttonsArray.forEach');
     button.addEventListener('click', async () => {
         const category = button.id;
         await chooseWordsArray(category);
@@ -70,11 +66,10 @@ buttonsArray.forEach((button) => {
 });
 
 const fetchWords = async (category) => {
-    console.log('fetchWords');
     try {
         const response = await fetch(`/api/words?category=${category}`);
         if (!response.ok) throw new Error('Failed to fetch words');
-        return await response.json(); // API повертає тільки потрібні слова
+        return await response.json();
     } catch (error) {
         console.error('Error fetching words:', error);
         return [];
@@ -82,11 +77,10 @@ const fetchWords = async (category) => {
 };
 
 const fetchProgress = async () => {
-    console.log('fetchProgress');
     try {
         const response = await fetch('/api/progress', {
             method: 'GET',
-            credentials: 'include' // надсилаємо куки для авторизації
+            credentials: 'include'
         });
         if (!response.ok) throw new Error(`Failed to fetch progress: ${response.status}`);
         const data = await response.json();
@@ -104,7 +98,6 @@ const chooseWordsArray = async (category) => {
         const progress = await fetchProgress();
         words = data.filter((word) => {
             const userWord = progress.find((p) => p.wordId === word._id);
-            // Якщо запис існує і його статус "guessed", слово виключається
             return !(userWord && userWord.status === 'guessed');
         });
         arrayId = category;
@@ -128,7 +121,6 @@ const startGame = () => {
 };
 
 const showWord = () => {
-    console.log('showWord');
     if (words.length > 0) {
         randomIndex = Math.floor(Math.random() * words.length);
         wordElement.textContent = words[randomIndex].word.toLowerCase();
@@ -139,8 +131,6 @@ const showWord = () => {
 };
 
 const checkGuess = (event) => {
-    console.log('checkGuess');
-
     const goCheck = async () => {
         const guess = guessInput.value.trim().toLowerCase();
         const currentWord = words[randomIndex];
@@ -179,9 +169,7 @@ const checkGuess = (event) => {
             endGameSequence();
         }
     };
-
     checkAnswerBtn.onclick = goCheck;
-
     if (event.key === "Enter") {
         goCheck();
     }
@@ -231,7 +219,6 @@ const showResults = () => {
 };
 
 const handleIncorrectAnswer = (answer) => {
-    console.log('handleIncorrectAnswer');
     resultText = `<div class="result-row">
         ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
         <div id="example-sentense-incorrect" class="hide">
@@ -247,7 +234,6 @@ const handleIncorrectAnswer = (answer) => {
 };
 
 const handleCorrectAnswer = (answer) => {
-    console.log('handleCorrectAnswer');
     resultText = `<div class="result-row">
         ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
         <div id="example-sentense-correct">
@@ -258,7 +244,6 @@ const handleCorrectAnswer = (answer) => {
 };
 
 function emptyWordList() {
-    console.log('emptyWordList');
     const elementsToDelete = document.querySelectorAll('.word-container');
     Array.from(elementsToDelete).forEach(element => element.remove());
     document.querySelectorAll('.example-text').forEach(element => {
@@ -271,28 +256,24 @@ function emptyWordList() {
 }
 
 const createWordObjects = (inputString) => {
-    console.log('createWordObjects');
     if (typeof inputString !== 'string') {
         console.error('Expected a string but got:', inputString);
-        return []; // Повертаємо порожній масив, якщо дані некоректні
+        return [];
     }
     const words = inputString.split(' ');
     return words.map((word, index) => ({ word, index }));
 };
 
 const shuffleWords = (wordObjects) => {
-    console.log('shuffleWords');
     return [...wordObjects].sort(() => Math.random() - 0.5);
 };
 
 const renderShuffledWords = (wordObjects) => {
-    console.log('renderShuffledWords');
     const numberedWords = wordObjects.map(obj => `<span class="word-container" data-index="${obj.index}">${obj.word}</span>`);
     document.getElementById('originalWords').innerHTML = numberedWords.join(' ');
 };
 
 const attachEventListeners = (wordObjects) => {
-    console.log('attachEventListeners');
     const wordContainers = document.querySelectorAll('.word-container');
     let clickedWords = [];
 
@@ -317,15 +298,13 @@ const attachEventListeners = (wordObjects) => {
 };
 
 function checkResult(clickedWords, wordObjects) {
-    console.log('checkResult');
-    console.log('attemptCount', attemptCount);
-    const indexesInString = wordObjects.map((_, index) => index); // Отримуємо правильну послідовність
+    const indexesInString = wordObjects.map((_, index) => index);
     for (let i = 0; i < indexesInString.length; i++) {
-        if (clickedWords[i] !== indexesInString[i]) { // Якщо послідовність неправильна
-            if (attemptCount === 1) { // Якщо це перша спроба
-                const firstParent = document.getElementById('userVersion'); // Контейнер з обраними словами
-                const secondParent = document.getElementById('originalWords'); // Контейнер з оригінальними словами
-                const nestedElements = Array.from(firstParent.children); // Слова в контейнері
+        if (clickedWords[i] !== indexesInString[i]) {
+            if (attemptCount === 1) {
+                const firstParent = document.getElementById('userVersion');
+                const secondParent = document.getElementById('originalWords');
+                const nestedElements = Array.from(firstParent.children);
                 nestedElements.forEach(function (nestedElement) {
                     secondParent.appendChild(nestedElement);
                 });
@@ -366,15 +345,13 @@ const clearUserProgress = async () => {
     try {
         const response = await fetch('/api/clear-progress', {
             method: 'PATCH',
-            credentials: 'include', // надсилання куки для авторизації
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' }
         });
         if (!response.ok) {
             throw new Error(`Failed to clear progress: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data.message, 'Modified count:', data.modifiedCount);
-        // Оновлюємо UI, наприклад, статистику категорій
         updateCategoryStats();
     } catch (error) {
         console.error('Error clearing user progress:', error);
