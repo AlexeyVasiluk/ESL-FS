@@ -19,14 +19,12 @@ let answerLog = [];
 let correctCount = 0;
 let wrongCount = 0;
 let resultText = '';
-let resultCount = '';
 let randomIndex = 0;
 let arrayId = '';
 let attemptCount = 1;
 correctCountElement.textContent = `0`;
 wrongCountElement.textContent = `0`;
 
-// UPDATE CATEGORY STATISTICS
 const updateCategoryStats = async () => {
     console.log('updateCategoryStats');
     try {
@@ -59,12 +57,10 @@ const updateCategoryStats = async () => {
     }
 };
 
-// SHOW CATEGORY STATISTICS
 document.addEventListener('DOMContentLoaded', () => {
     updateCategoryStats();
 });
 
-// CATEGORY CHOOSING BY CLICKING ON CATEGORY NAME
 buttonsArray.forEach((button) => {
     console.log('buttonsArray.forEach');
     button.addEventListener('click', async () => {
@@ -73,7 +69,6 @@ buttonsArray.forEach((button) => {
     });
 });
 
-// GET WORDS from DB by CATEGORY
 const fetchWords = async (category) => {
     console.log('fetchWords');
     try {
@@ -86,7 +81,6 @@ const fetchWords = async (category) => {
     }
 };
 
-// GET USER PROGRESS from DB
 const fetchProgress = async () => {
     console.log('fetchProgress');
     try {
@@ -104,7 +98,6 @@ const fetchProgress = async () => {
     }
 };
 
-// GET WORDS and PROGRESS from DB and PARSE WORDS to WORKING LIST
 const chooseWordsArray = async (category) => {
     console.log('chooseWordsArray');
     try {
@@ -133,9 +126,6 @@ const chooseWordsArray = async (category) => {
     }
 };
 
-// =====================================   GAME   LOGIC    =============================================================
-
-// START GAME
 const startGame = () => {
     statsElement.innerHTML = '';
     resultText = '';
@@ -148,7 +138,6 @@ const startGame = () => {
     showWord();
 };
 
-// CHOOSE RANDOM WORD from LIST
 const showWord = () => {
     console.log('showWord');
     if (words.length > 0) {
@@ -160,7 +149,6 @@ const showWord = () => {
     }
 };
 
-// CHECK USER WORD INPUT
 const checkGuess = (event) => {
     console.log('checkGuess');
 
@@ -210,18 +198,16 @@ const checkGuess = (event) => {
     }
 };
 
-// SAVE PROGRESS to DB
 const saveProgress = async (wordId, guessed) => {
     try {
-        // Надсилаємо POST-запит до маршруту /api/progress з даними про слово та його статусом
         const response = await fetch('/api/progress', {
-            method: 'POST', // використовується POST для створення або оновлення запису
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 wordId,
                 status: guessed ? 'guessed' : 'not_guessed'
             }),
-            credentials: 'include' // надсилаємо куки для авторизації
+            credentials: 'include'
         });
 
         if (!response.ok) {
@@ -236,7 +222,6 @@ const saveProgress = async (wordId, guessed) => {
     }
 };
 
-// SHOW RESULTS
 const showResults = () => {
     resultText = '';
     correctCountElement.textContent = `${correctCount}`;
@@ -256,7 +241,6 @@ const showResults = () => {
     statsElement.innerHTML = resultText;
 };
 
-// RESULTS if CORRECT ANSWER
 const handleIncorrectAnswer = (answer) => {
     console.log('handleIncorrectAnswer');
     resultText = `<div class="result-row">
@@ -273,7 +257,6 @@ const handleIncorrectAnswer = (answer) => {
     attachEventListeners(shuffledWordObjects);
 };
 
-// RESULTS if NOT CORRECT ANSWER
 const handleCorrectAnswer = (answer) => {
     console.log('handleCorrectAnswer');
     resultText = `<div class="result-row">
@@ -285,7 +268,6 @@ const handleCorrectAnswer = (answer) => {
     emptyWordList();
 };
 
-// EMPTY WORDS INPUT FIELD
 function emptyWordList() {
     console.log('emptyWordList');
     const elementsToDelete = document.querySelectorAll('.word-container');
@@ -298,7 +280,6 @@ function emptyWordList() {
         showWord();
     }, 1000);
 }
-
 
 const createWordObjects = (inputString) => {
     console.log('createWordObjects');
@@ -377,8 +358,6 @@ function checkResult(clickedWords, wordObjects) {
     return true;
 }
 
-
-// WIN MODAL -> END GAME
 const endGameSequence = () => {
     wrapper.style.display = 'none';
     winModal.style.display = 'flex';
@@ -394,7 +373,6 @@ const endGameSequence = () => {
     });
 };
 
-// CLEAR PROGRESS
 const clearUserProgress = async () => {
     try {
         const response = await fetch('/api/clear-progress', {
@@ -418,7 +396,6 @@ if (clearProgressButton) {
     clearProgressButton.addEventListener('click', clearUserProgress);
 }
 
-// LOGOUT
 if (!document.getElementById('logout-btn')) {
     const logoutBtn = document.createElement('button');
     logoutBtn.id = 'logout-btn';
@@ -444,12 +421,10 @@ if (!document.getElementById('logout-btn')) {
     container.appendChild(logoutBtn);
 }
 
-// HELPERS =======================================================================================================
-// CHECK PRESS ENTER BUTTON
 guessInput.addEventListener('keyup', checkGuess);
-// END GAME BUTTON
+
 endGameBtn[0].addEventListener('click', () => {location.reload();});
-// HELP MODAL OPEN
+
 help[0].addEventListener('click', () => {
     if (rules.classList.contains('active')) {
         help[0].classList.remove('active');
@@ -460,3 +435,14 @@ help[0].addEventListener('click', () => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const header  = document.getElementById('vocabulary-header');
+    const content = document.getElementById('vocabulary-content');
+
+    // Якщо ви хочете, щоб спочатку було розкрито (active)
+    content.classList.add('expanded');
+
+    header.addEventListener('click', () => {
+        content.classList.toggle('expanded');
+    });
+});

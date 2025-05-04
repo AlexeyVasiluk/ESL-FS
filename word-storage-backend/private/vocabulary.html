@@ -25,14 +25,12 @@
         <option value="es">Español</option>
     </select>
     <div class="help" data-i18n="help">HELP</div>
-    <div id="rules" class="rules nonactive">
-        <p>Вибери набір слів, наприклад - ДІЄСЛОВА <i>(зеленим відображено к-ть вивчених слів, червоним - що ще залишилися для вивчення).</i></p>
-        <p style="font-weight: bolder; margin-bottom: 0;">Правила максимально прості:</p>
-        <ul>
-            <li>поруч з українським словом вписуй англійський переклад і тисни ENTER або клавішу для перевірки "Check answer";</li>
-            <li>якщо ти ввів неправильну відповідь - система підкаже тобі правильне слово і запропонує скласти речення з використанням цього слова в контексті для кращого запам'ятовування;</li>
-        </ul>
-        <p>Якщо втомився чи хочеш обрати іншу групу слів - тисни END GAME -> твій прогрес буде збережено і ти зможеш повернутися до нього пізніше.</p>
+    <div id="rules" class="rules nonactive" data-i18n="rules">
+        Вибери набір слів, наприклад - ДІЄСЛОВА (зеленим відображено к-ть вивчених слів, червоним - що ще залишилися для вивчення).
+        Правила максимально прості:
+        - поруч з українським словом вписуй англійський переклад і тисни ENTER або клавішу для перевірки "Check answer";
+        - якщо ти ввів неправильну відповідь - система підкаже тобі правильне слово і запропонує скласти речення з використанням цього слова в контексті для кращого запам'ятовування;
+        Якщо втомився чи хочеш обрати іншу групу слів - тисни END GAME -> твій прогрес буде збережено і ти зможеш повернутися до нього пізніше.
     </div>
 </div>
 
@@ -128,15 +126,15 @@
         </div>
 
         <div style="height: 180px; text-align: center;">
-            <div id="makeSentence" class="hide">Складіть речення з набору слів:</div>
+            <div id="makeSentence" class="hide" data-i18n="makeSentence">Складіть речення з набору слів:</div>
             <div id="originalWords"></div>
             <div id="userVersion"></div>
-            <div id="errorInSentence" class="hide" style="color: red; width: 100%;">Нажаль невірно, вірна відповідь нижче.</div>
+            <div id="errorInSentence" class="hide" style="color: red; width: 100%;" data-i18n="wrongAnswer">Нажаль невірно, вірна відповідь нижче.</div>
         </div>
         <div id="stats"></div>
         <div id="winModal" class="modal hidemodal">
             <div class="modal-content">
-                <h1>Congratulation! You win!</h1>
+                <h1 data-i18n="congrats">Congratulation! You win!</h1>
             </div>
         </div>
     </div>
