@@ -252,7 +252,7 @@ function emptyWordList() {
         element.classList.remove('hide');
     });
     setTimeout(() => {
-        // document.getElementById('makeSentence').classList.add('hide');
+        document.getElementById('makeSentence').classList.add('hide');
         showWord();
     }, 2000);
 }
