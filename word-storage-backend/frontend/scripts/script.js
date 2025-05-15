@@ -254,7 +254,7 @@ function emptyWordList() {
     setTimeout(() => {
         document.getElementById('makeSentence').classList.add('hide');
         showWord();
-    }, 2000);
+    }, 1000);
 }
 
 const createWordObjects = (inputString) => {
