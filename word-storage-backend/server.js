@@ -35,17 +35,25 @@ app.get(['/vocabulary', '/vocabulary.html'], auth, (req, res) => {
 });
 
 // ===== API: Words =====
-app.get('/api/words', async (req, res) => {
+app.get('/api/words', auth, async (req, res) => {
     try {
-        const { category } = req.query;
-        const query = { guessed: false };
-        if (category) {
-            query.category = category;
+        const { category, lang = 'uk' } = req.query;
+        if (!['uk','ru','es'].includes(lang)) {
+            return res.status(400).json({ error: 'Invalid lang' });
         }
-        const words = await Word.find(query);
-        res.json(words);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch words' });
+        const query = { ...(category && { category }) };
+        const docs = await Word.find(query);
+        const localized = docs.map(w => ({
+            _id: w._id,
+            word: w[`word_${lang}`],    // отримаємо word_uk | word_ru | word_es
+            translation: w.translation,
+            example:     w.example,
+            guessed:     w.guessed
+        }));
+        res.json(localized);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
     }
 });
 

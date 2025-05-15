@@ -67,7 +67,11 @@ buttonsArray.forEach((button) => {
 
 const fetchWords = async (category) => {
     try {
-        const response = await fetch(`/api/words?category=${category}`);
+        const lang = getLang(); // 'uk'|'ru'|'es'
+        const response = await fetch(
+            `/api/words?category=${encodeURIComponent(category)}&lang=${lang}`,
+            { credentials: 'include' }
+        );
         if (!response.ok) throw new Error('Failed to fetch words');
         return await response.json();
     } catch (error) {
