@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config();
+import fetch from 'node-fetch';
 
 const cookieParser = require('cookie-parser');
 
@@ -10,6 +11,7 @@ const UserProgress = require('./models/UserProgress');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
 
 // ===== Middleware =====
 app.use(express.json());
@@ -53,6 +55,30 @@ app.get('/api/words', auth, async (req, res) => {
         res.json(localized);
     } catch (err) {
         console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.get('/api/image', async (req, res) => {
+    const { word } = req.query;
+    if (!word) {
+        return res.status(400).json({ error: 'Missing ?word=...' });
+    }
+    try {
+        const pixabayUrl = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}`
+            + `&q=${encodeURIComponent(word)}`
+            + `&image_type=photo&per_page=3`;
+
+        const pixRes = await fetch(pixabayUrl);
+        if (!pixRes.ok) {
+            console.error('Pixabay error', pixRes.status);
+            return res.status(502).json({ error: 'Error from Pixabay API' });
+        }
+
+        const data = await pixRes.json();
+        res.json(data);
+    } catch (err) {
+        console.error('Fetch failed', err);
         res.status(500).json({ error: 'Server error' });
     }
 });

@@ -80,6 +80,37 @@ const fetchWords = async (category) => {
     }
 };
 
+const imageElement = document.getElementById('word-image');
+const imageCache = {};
+
+async function fetchImageForWord(word) {
+    try {
+        const res = await fetch(`/api/image?word=${encodeURIComponent(word)}`, {
+            credentials: 'include'
+        });
+        const data = await res.json();
+
+        if (data.hits && data.hits.length > 0) {
+            imageElement.src = data.hits[0].webformatURL;
+            imageElement.style.display = 'block';
+        } else {
+            imageElement.src = '';
+            imageElement.style.display = 'none';
+        }
+    } catch (err) {
+        console.error('Error fetching image:', err);
+        imageElement.style.display = 'none';
+    }
+
+    if (imageCache[word]) {
+        imageElement.src = imageCache[word];
+        imageElement.style.display = 'block';
+        return;
+    }
+    imageCache[word] = data.hits[0].webformatURL;
+}
+console.log('imageCache', imageCache);
+
 const fetchProgress = async () => {
     try {
         const response = await fetch('/api/progress', {
@@ -131,7 +162,8 @@ const showWord = () => {
         guessInput.style.backgroundColor = "";
         guessInput.value = '';
         guessInput.focus();
-        console.log('TRANSLATION = ', words[randomIndex].translation);
+        console.log('TRANSLATION = ', words[randomIndex].word.toLowerCase());
+        console.log('TRANSLATION = ', words[randomIndex].translation.toLowerCase());
         fetchImageForWord(words[randomIndex].translation.trim().toLowerCase());
     }
 };
@@ -417,38 +449,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-const imageElement = document.getElementById('word-image');
-const PIXABAY_API_KEY = '50731628-4e14ba8f36e176e307f229961';
-
-async function fetchImageForWord(word) {
-    try {
-        const res = await fetch(
-            `https://pixabay.com/api/?key=${PIXABAY_API_KEY}`
-            + `&q=${encodeURIComponent(word)}`
-            + `&image_type=photo&per_page=3`
-        );
-        const data = await res.json();
-        if (data.hits && data.hits.length) {
-            imageElement.src = data.hits[0].webformatURL;
-            imageElement.style.display = 'block';
-        } else {
-            imageElement.src = '';
-            imageElement.style.display = 'none';
-        }
-    } catch (err) {
-        console.error('Error fetching image:', err);
-        imageElement.style.display = 'none';
-    }
-}
-const imageCache = {};
-console.log('imageCache', imageCache);
-async function fetchImageForWord(word) {
-    if (imageCache[word]) {
-        imageElement.src = imageCache[word];
-        imageElement.style.display = 'block';
-        return;
-    }
-    // ... після успішного отримання:
-    imageCache[word] = data.hits[0].webformatURL;
-    // ...
-}
