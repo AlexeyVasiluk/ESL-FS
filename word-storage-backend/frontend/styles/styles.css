@@ -159,13 +159,16 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
 
 #stats {
     text-align: left;
-    display: grid;
+    display: inline-block;
     gap: 10px;
     height: auto;
     overflow: auto;
     grid-auto-flow: dense;
-    /*grid-template-columns: repeat(3, 1fr);*/
-    /*margin-top: 100winpx;*/
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#example-sentense-incorrect {
+    margin-top: 7px;
 }
 
 .result-row:nth-child(odd) {
@@ -179,6 +182,7 @@ hr {
 .result-row {
     margin-bottom: 5px;
     text-align: center;
+    padding: 7px;
 }
 
 #stats .result-row:last-child {
@@ -227,6 +231,7 @@ hr {
 
 .content {
     width: 100%;
+    text-align: center;
 }
 
 #correct_answer:before {
