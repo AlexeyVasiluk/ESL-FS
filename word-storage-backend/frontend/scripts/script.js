@@ -81,34 +81,25 @@ const fetchWords = async (category) => {
 };
 
 const imageElement = document.getElementById('word-image');
-const imageCache = {};
 
 async function fetchImageForWord(word) {
-    if (imageCache[word]) {
-        imageElement.src = imageCache[word];
-        imageElement.style.display = 'block';
-        return;
-    }
-
+    console.log('→ fetching image for:', word);
     try {
-        const res = await fetch(
-            `/api/image?word=${encodeURIComponent(word)}`,
-            { credentials: 'include' }
-        );
-
+        const res = await fetch(`/api/image?word=${encodeURIComponent(word)}`, {
+            credentials: 'include'
+        });
         if (!res.ok) {
-            console.error('Image API error:', res.status);
+            console.error('Image API error', res.status);
             imageElement.style.display = 'none';
             return;
         }
 
         const data = await res.json();
-
         if (data.hits && data.hits.length > 0) {
-            const url = data.hits[0].webformatURL;
-            imageCache[word] = url;
-            imageElement.src = url;
+            imageElement.src = data.hits[0].webformatURL;
             imageElement.style.display = 'block';
+            console.log('data.hits[0].pageURL;', data.hits[0].pageURL);
+            console.log('data.hits[0].tags;', data.hits[0].tags);
         } else {
             imageElement.src = '';
             imageElement.style.display = 'none';
@@ -117,11 +108,7 @@ async function fetchImageForWord(word) {
         console.error('Error fetching image:', err);
         imageElement.style.display = 'none';
     }
-    console.log('data.hits[0].pageURL;', data.hits[0].pageURL);
-    console.log('data.hits[0].tags;', data.hits[0].tags);
 }
-
-console.log('imageCache', imageCache);
 
 const fetchProgress = async () => {
     try {
@@ -168,16 +155,6 @@ const startGame = () => {
 };
 
 const showWord = () => {
-    // if (words.length > 0) {
-    //     randomIndex = Math.floor(Math.random() * words.length);
-    //     wordElement.textContent = words[randomIndex].word.toLowerCase();
-    //     guessInput.style.backgroundColor = "";
-    //     guessInput.value = '';
-    //     guessInput.focus();
-    //     console.log('TRANSLATION = ', words[randomIndex].translation.toLowerCase());
-    //     fetchImageForWord(words[randomIndex].translation.trim().toLowerCase());
-    // }
-
     if (words.length === 0) return;
     randomIndex = Math.floor(Math.random() * words.length);
     const current = words[randomIndex];
