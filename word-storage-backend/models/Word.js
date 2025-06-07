@@ -5,7 +5,7 @@ const wordSchema = new mongoose.Schema({
     word_uk:    { type: String, required: true },
     word_ru:    { type: String, required: true },
     word_es:    { type: String, required: true },
-    translation:{ type: String, required: true },  // англ.
+    translation:{ type: String, required: true },
     example:    { type: String, required: true },
     guessed:    { type: Boolean, default: false }
 });

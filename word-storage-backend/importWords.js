@@ -1,23 +1,17 @@
-require('dotenv').config(); // Додаємо цю стрічку найпершою
-console.log('MONGODB_URI:', process.env.MONGODB_URI); // ← тимчасово
+require('dotenv').config();
 const mongoose = require('mongoose');
 const Word = require('./models/Word');
 
-// Підключення до MongoDB
 const connectToDB = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true, useUnifiedTopology: true,
         });
-
-        console.log('Connected to MongoDB');
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
         process.exit(1); // Завершити процес у разі невдачі
     }
 };
 
-// Масив слів для імпорту
 const words = [
     { category: 'verbs_moving', word_uk: "рухатися/переміщатися", word_ru: "двигаться/перемещаться", word_es: "mover(se)", translation: "move", guessed: false, example: "Every morning I move through the park during my run" },
     { category: 'verbs_moving', word_uk: "схопити", word_ru: "поймать", word_es: "atrapar", translation: "catch", guessed: false, example: "He ran to catch the bus before it left" },
@@ -3051,18 +3045,15 @@ const words = [
     { category: 'nouns_time', word_uk: "канікули", word_ru: "каникулы", word_es: "vacaciones", translation: "vacation", guessed: false, example: "They planned a vacation to the mountains" }
 ];
 
-// Функція для імпорту слів
 const importWords = async () => {
     try {
-        // Видаляємо старі записи (опціонально)
         await Word.deleteMany({});
-        // Додаємо нові слова
         const insertedWords = await Word.insertMany(words);
         console.log(`Inserted ${insertedWords.length} words into the database.`);
     } catch (error) {
         console.error('Error inserting words:', error);
     } finally {
-        mongoose.connection.close(); // Закриваємо з'єднання
+        mongoose.connection.close();
     }
 };
 

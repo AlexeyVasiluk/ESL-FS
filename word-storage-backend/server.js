@@ -60,8 +60,6 @@ app.get('/api/words', auth, async (req, res) => {
 
 app.get('/api/image', async (req, res) => {
     const { word } = req.query;
-    console.log('API_KEY:', PIXABAY_API_KEY ? '✔️ present' : '❌ missing');
-    console.log('Searching word:', word);
     if (!word) {
         return res.status(400).json({ error: 'Missing ?word=...' });
     }
@@ -69,11 +67,9 @@ app.get('/api/image', async (req, res) => {
         const pixabayUrl = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}`
             + `&q=${encodeURIComponent(word)}`
             + `&image_type=photo&per_page=3`;
-        console.log('Pixabay URL:', pixabayUrl);
 
         const pixRes = await fetch(pixabayUrl);
         if (!pixRes.ok) {
-            console.error('Pixabay error', pixRes.status);
             return res.status(502).json({ error: 'Error from Pixabay API' });
         }
 
@@ -91,7 +87,6 @@ app.get('/api/progress', auth, async (req, res) => {
         const progress = await UserProgress.find({ userId: req.user.id });
         res.json(progress);
     } catch (error) {
-        console.error('Error fetching progress:', error);
         res.status(500).json({ error: 'Failed to fetch progress' });
     }
 });
@@ -140,7 +135,6 @@ app.get('/api/category-stats', auth, async (req, res) => {
             }
         ]);
 
-        console.log("Category stats:", stats);
         res.json(stats);
     } catch (error) {
         console.error('Error fetching category stats:', error);
@@ -160,7 +154,6 @@ app.post('/api/progress', auth, async (req, res) => {
             { status },
             { upsert: true, new: true }
         );
-        console.log('Updated progress record:', updatedProgress);
         res.json(updatedProgress);
     } catch (error) {
         console.error('Error updating progress:', error);
@@ -194,15 +187,12 @@ app.patch('/api/words/:id', async (req, res) => {
 // PATCH: clear progress
 app.patch('/api/clear-progress', auth, async (req, res) => {
     try {
-        console.log("Clear progress route hit. User ID:", req.user.id);
         const result = await UserProgress.deleteMany({
             userId: req.user.id,
             status: "guessed"
         });
-        console.log("Clear progress result:", result);
         res.json({ message: 'Your progress has been cleared', deletedCount: result.deletedCount });
     } catch (error) {
-        console.error('Error clearing user progress:', error);
         res.status(500).json({ error: 'Failed to clear user progress' });
     }
 });
@@ -224,9 +214,4 @@ app.get('/api/protected', auth, (req, res) => {
 app.use('/', express.static(path.join(__dirname, 'frontend')));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
-});
-
-// ===== START SERVER =====
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
 });

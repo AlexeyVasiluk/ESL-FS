@@ -4,9 +4,8 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
+const JWT_SECRET = process.env.JWT_SECRET;
 
-// Реєстрація користувача
 router.post(
     '/register',
     [
@@ -36,8 +35,6 @@ router.post(
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
 
-                console.log('Setting cookie on registration for:', email);
-
                 res.cookie('token', token, {
                     httpOnly: true,
                     secure: true,
@@ -47,12 +44,10 @@ router.post(
                     maxAge: 3600000 // 1 година
                 });
 
-                console.log('Cookie set');
                 res.json({ token });
             });
 
         } catch (err) {
-            console.error(err.message);
             res.status(500).send('Server error');
         }
     }
@@ -89,8 +84,6 @@ router.post(
             jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
                 if (err) throw err;
 
-                console.log('Setting cookie on login for:', email);
-
                 res.cookie('token', token, {
                     httpOnly: true,
                     secure: true,
@@ -100,12 +93,10 @@ router.post(
                     maxAge: 3600000
                 });
 
-                console.log('Cookie set');
                 res.json({ token });
             });
 
         } catch (err) {
-            console.error(err.message);
             res.status(500).send('Server error');
         }
     }

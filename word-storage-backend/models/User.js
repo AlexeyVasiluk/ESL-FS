@@ -1,4 +1,3 @@
-// models/User.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -8,7 +7,6 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true }
 });
 
-// Перед збереженням хешуємо пароль, якщо він змінювався
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
     try {
@@ -21,7 +19,6 @@ userSchema.pre('save', async function(next) {
     }
 });
 
-// Метод для порівняння паролів
 userSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
