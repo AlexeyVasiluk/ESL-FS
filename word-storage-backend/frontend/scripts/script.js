@@ -84,14 +84,30 @@ const imageElement = document.getElementById('word-image');
 const imageCache = {};
 
 async function fetchImageForWord(word) {
+    if (imageCache[word]) {
+        imageElement.src = imageCache[word];
+        imageElement.style.display = 'block';
+        return;
+    }
+
     try {
-        const res = await fetch(`/api/image?word=${encodeURIComponent(word)}`, {
-            credentials: 'include'
-        });
+        const res = await fetch(
+            `/api/image?word=${encodeURIComponent(word)}`,
+            { credentials: 'include' }
+        );
+
+        if (!res.ok) {
+            console.error('Image API error:', res.status);
+            imageElement.style.display = 'none';
+            return;
+        }
+
         const data = await res.json();
 
         if (data.hits && data.hits.length > 0) {
-            imageElement.src = data.hits[0].webformatURL;
+            const url = data.hits[0].webformatURL;
+            imageCache[word] = url;
+            imageElement.src = url;
             imageElement.style.display = 'block';
         } else {
             imageElement.src = '';
@@ -101,14 +117,8 @@ async function fetchImageForWord(word) {
         console.error('Error fetching image:', err);
         imageElement.style.display = 'none';
     }
-
-    if (imageCache[word]) {
-        imageElement.src = imageCache[word];
-        imageElement.style.display = 'block';
-        return;
-    }
-    imageCache[word] = data.hits[0].webformatURL;
 }
+
 console.log('imageCache', imageCache);
 
 const fetchProgress = async () => {
