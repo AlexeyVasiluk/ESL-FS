@@ -186,6 +186,7 @@ const showWord = () => {
     guessInput.value = '';
     guessInput.focus();
     fetchImageForWord(current.translation.trim().toLowerCase());
+    console.log('TRANSLATION = ', current.translation.trim().toLowerCase());
 };
 
 const checkGuess = (event) => {
