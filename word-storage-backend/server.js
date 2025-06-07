@@ -1,7 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-require('dotenv').config();
 
 const cookieParser = require('cookie-parser');
 
@@ -60,6 +60,8 @@ app.get('/api/words', auth, async (req, res) => {
 
 app.get('/api/image', async (req, res) => {
     const { word } = req.query;
+    console.log('API_KEY:', PIXABAY_API_KEY ? '✔️ present' : '❌ missing');
+    console.log('Searching word:', word);
     if (!word) {
         return res.status(400).json({ error: 'Missing ?word=...' });
     }
@@ -67,6 +69,7 @@ app.get('/api/image', async (req, res) => {
         const pixabayUrl = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}`
             + `&q=${encodeURIComponent(word)}`
             + `&image_type=photo&per_page=3`;
+        console.log('Pixabay URL:', pixabayUrl);
 
         const pixRes = await fetch(pixabayUrl);
         if (!pixRes.ok) {

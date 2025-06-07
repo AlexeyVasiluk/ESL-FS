@@ -162,7 +162,6 @@ const showWord = () => {
         guessInput.style.backgroundColor = "";
         guessInput.value = '';
         guessInput.focus();
-        console.log('TRANSLATION = ', words[randomIndex].word.toLowerCase());
         console.log('TRANSLATION = ', words[randomIndex].translation.toLowerCase());
         fetchImageForWord(words[randomIndex].translation.trim().toLowerCase());
     }
