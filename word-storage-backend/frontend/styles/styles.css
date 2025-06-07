@@ -114,6 +114,11 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
 
 .words-by-themes-list {
     margin-top: 70px;
+    display: inline-flex;
+}
+
+#example-sentense-correct {
+    margin-top: 7px;
 }
 
 .help::after {
@@ -157,7 +162,7 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
     margin-right: 10px;
 }
 
-.word-image {
+#word-image {
     margin: 20px auto;
 }
 
@@ -301,8 +306,6 @@ hr {
     display: block;
     text-transform: uppercase;
     padding: 5px 5px 5px 0;
-    text-align: center;
-    background-color: #bbb4b4;
 }
 
 .accordion-section {

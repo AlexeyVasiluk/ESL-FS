@@ -117,6 +117,8 @@ async function fetchImageForWord(word) {
         console.error('Error fetching image:', err);
         imageElement.style.display = 'none';
     }
+    console.log('data.hits[0].pageURL;', data.hits[0].pageURL);
+    console.log('data.hits[0].tags;', data.hits[0].tags);
 }
 
 console.log('imageCache', imageCache);
@@ -166,15 +168,24 @@ const startGame = () => {
 };
 
 const showWord = () => {
-    if (words.length > 0) {
-        randomIndex = Math.floor(Math.random() * words.length);
-        wordElement.textContent = words[randomIndex].word.toLowerCase();
-        guessInput.style.backgroundColor = "";
-        guessInput.value = '';
-        guessInput.focus();
-        console.log('TRANSLATION = ', words[randomIndex].translation.toLowerCase());
-        fetchImageForWord(words[randomIndex].translation.trim().toLowerCase());
-    }
+    // if (words.length > 0) {
+    //     randomIndex = Math.floor(Math.random() * words.length);
+    //     wordElement.textContent = words[randomIndex].word.toLowerCase();
+    //     guessInput.style.backgroundColor = "";
+    //     guessInput.value = '';
+    //     guessInput.focus();
+    //     console.log('TRANSLATION = ', words[randomIndex].translation.toLowerCase());
+    //     fetchImageForWord(words[randomIndex].translation.trim().toLowerCase());
+    // }
+
+    if (words.length === 0) return;
+    randomIndex = Math.floor(Math.random() * words.length);
+    const current = words[randomIndex];
+    wordElement.textContent = current.word.toLowerCase();
+    guessInput.style.backgroundColor = '';
+    guessInput.value = '';
+    guessInput.focus();
+    fetchImageForWord(current.translation.trim().toLowerCase());
 };
 
 const checkGuess = (event) => {
