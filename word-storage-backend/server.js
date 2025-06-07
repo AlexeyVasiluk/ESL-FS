@@ -215,3 +215,8 @@ app.use('/', express.static(path.join(__dirname, 'frontend')));
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
+
+// ===== START SERVER =====More actions
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
