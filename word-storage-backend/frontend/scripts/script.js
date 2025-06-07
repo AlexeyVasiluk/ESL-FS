@@ -98,8 +98,8 @@ async function fetchImageForWord(word) {
         if (data.hits && data.hits.length > 0) {
             imageElement.src = data.hits[0].webformatURL;
             imageElement.style.display = 'block';
-            console.log('data.hits[0].pageURL;', data.hits[0].pageURL);
-            console.log('data.hits[0].tags;', data.hits[0].tags);
+            console.log('pageURL = ', data.hits[0].pageURL);
+            console.log('tags = ', data.hits[0].tags);
         } else {
             imageElement.src = '';
             imageElement.style.display = 'none';
@@ -157,6 +157,7 @@ const startGame = () => {
 const showWord = () => {
     if (words.length === 0) return;
     randomIndex = Math.floor(Math.random() * words.length);
+    console.log('randomIndex', randomIndex);
     const current = words[randomIndex];
     wordElement.textContent = current.word.toLowerCase();
     guessInput.style.backgroundColor = '';
@@ -234,22 +235,46 @@ const saveProgress = async (wordId, guessed) => {
 };
 
 const showResults = () => {
-    resultText = '';
+    // resultText = '';
+    // correctCountElement.textContent = `${correctCount}`;
+    // wrongCountElement.textContent = `${wrongCount}`;
+    //
+    // for (let i = 0; i < answerLog.length; i++) {
+    //     const answer = answerLog[i];
+    //     const lastAnswer = answerLog[answerLog.length - 1];
+    //
+    //     if (!lastAnswer.correct) {
+    //         handleIncorrectAnswer(answer);
+    //     } else {
+    //         handleCorrectAnswer(answer);
+    //     }
+    // }
+    //
+    // statsElement.innerHTML = resultText;
+
+//     ------------------------------------------
+
+    // оновлюємо лічильники
     correctCountElement.textContent = `${correctCount}`;
     wrongCountElement.textContent = `${wrongCount}`;
 
-    for (let i = 0; i < answerLog.length; i++) {
-        const answer = answerLog[i];
-        const lastAnswer = answerLog[answerLog.length - 1];
+    // беремо лише останню відповідь
+    const lastAnswer = answerLog[answerLog.length - 1];
 
-        if (!lastAnswer.correct) {
-            handleIncorrectAnswer(answer);
-        } else {
-            handleCorrectAnswer(answer);
-        }
+    // чистимо попередній результат
+    resultText = '';
+
+    if (!lastAnswer.correct) {
+        handleIncorrectAnswer(lastAnswer);
+    } else {
+        handleCorrectAnswer(lastAnswer);
     }
 
     statsElement.innerHTML = resultText;
+
+
+
+
 };
 
 const handleIncorrectAnswer = (answer) => {
@@ -268,13 +293,28 @@ const handleIncorrectAnswer = (answer) => {
 };
 
 const handleCorrectAnswer = (answer) => {
-    resultText = `<div class="result-row">
-        ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
-        <div id="example-sentense-correct">
-            <span style="font-weight: bold;"> Example: </span>${answer.examples}
-        </div>
-    </div>`;
+    // resultText = `<div class="result-row">
+    //     ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
+    //     <div id="example-sentense-correct">
+    //         <span style="font-weight: bold;"> Example: </span>${answer.examples}
+    //     </div>
+    // </div>`;
+    // emptyWordList();
+    //
+    //-----------------------------
+
+    resultText = `
+    <div class="result-row">
+      ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
+      <div id="example-sentense-correct">
+        <span style="font-weight: bold;">Example:</span> ${answer.examples}
+      </div>
+    </div>
+  `;
+
+    // заплануємо одну-єдину наступну showWord
     emptyWordList();
+
 };
 
 function emptyWordList() {
