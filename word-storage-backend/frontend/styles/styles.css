@@ -109,6 +109,11 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
     position: absolute;
     right: 10px;
     top: 10px;
+    text-decoration: underline;
+}
+
+.words-by-themes-list {
+    margin-top: 70px;
 }
 
 .help::after {
@@ -130,13 +135,13 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
 .rules.active {
     display: block;
     position: absolute;
-    background: #fff;
     margin-top: 50px;
     right: 0;
-    left: 0;
-    height: 50%;
     top: 0;
     z-index: 1;
+    width: 30%;
+    background: lightgray;
+    text-align: center;
 }
 
 .game.words-button.active {
@@ -150,6 +155,10 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
     font-size: 20px;
     font-weight: bold;
     margin-right: 10px;
+}
+
+.word-image {
+    margin: 20px auto;
 }
 
 #errorInSentence {
