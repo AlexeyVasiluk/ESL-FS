@@ -15,7 +15,7 @@
         <a href="vocabulary.html" data-i18n="menu_vocabulary" class="menu-item">Vocabulary</a>
         <a href="grammar.html" data-i18n="menu_grammar" class="menu-item">Grammar</a>
         <a href="listening.html" data-i18n="menu_listening" class="menu-item">Listening</a>
-        <button id="clear-progress" data-i18n="clearProgress">Clear Progress</button>
+
     </div>
     <div class="header-buttons">
     <select id="language-switcher">
@@ -30,9 +30,12 @@
     <div id="vocabulary-section" class="accordion-section active">
         <div class="accordion-header" id="vocabulary-header" data-i18n="wordsByTheme">Words by themes</div>
         <div class="accordion-content expanded" id="vocabulary-content">
-            <div class="help" data-i18n="help">HELP</div>
-            <div id="rules" class="rules nonactive" data-i18n="rules">
-                Вибери набір слів, наприклад - ДІЄСЛОВА (зеленим відображено к-ть вивчених слів, червоним - що ще залишилися для вивчення). Правила максимально прості: поруч з українським словом вписуй англійський переклад і тисни ENTER або клавішу "Перевірити" для перевірки. Якщо ти ввів неправильну відповідь - система підкаже тобі правильне слово і запропонує скласти речення з використанням цього слова в контексті для кращого запам'ятовування. Якщо втомився чи хочеш обрати іншу групу слів - тисни "Закінчити Гру". Твій прогрес буде збережено і ти зможеш повернутися до нього пізніше.
+            <div class="helper-buttons">
+                <div class="help" data-i18n="help">HELP</div>
+                <div id="rules" class="rules nonactive" data-i18n="rules">
+                    Вибери набір слів, наприклад - ДІЄСЛОВА (зеленим відображено к-ть вивчених слів, червоним - що ще залишилися для вивчення). Правила максимально прості: поруч з українським словом вписуй англійський переклад і тисни ENTER або клавішу "Перевірити" для перевірки. Якщо ти ввів неправильну відповідь - система підкаже тобі правильне слово і запропонує скласти речення з використанням цього слова в контексті для кращого запам'ятовування. Якщо втомився чи хочеш обрати іншу групу слів - тисни "Закінчити Гру". Твій прогрес буде збережено і ти зможеш повернутися до нього пізніше.
+                </div>
+                <button id="clear-progress" data-i18n="clearProgress">Clear Progress</button>
             </div>
             <a id="nouns_food" class="words-button">Food</a>
             <a id="nouns_house" class="words-button">House</a>

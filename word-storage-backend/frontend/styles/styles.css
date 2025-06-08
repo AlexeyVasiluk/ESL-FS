@@ -109,6 +109,7 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
     text-decoration: underline;
     cursor: pointer;
     margin-top: 5px;
+    line-height: 35px;
 }
 
 .words-by-themes-list {
@@ -124,7 +125,7 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
     content: '\25B6';
     float: right;
     margin-left: 5px;
-    margin-top: -2px;
+    margin-top: 0;
 }
 
 .help.active::after {
@@ -140,14 +141,14 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
     display: block;
     position: absolute;
     left: 10px;
-    top: 165px;
+    top: 185px;
     z-index: 1;
     width: 50%;
     background: lightgray;
     text-align: center;
     line-height: 25px;
     text-transform: none;
-    border: 1px dashed black;
+    border: 2px dashed red;
 }
 
 .game.words-button.active {
@@ -385,10 +386,7 @@ button {
 
 #clear-progress {
     height: 40px;
-    min-width: 100px;
-    position: absolute;
-    left: 10px;
-    top: 55px;
+    min-width: 140px;
     background: red;
 }
 
@@ -483,6 +481,11 @@ button:active {
 
 #language-switcher {
     height: 40px;
+}
+
+.helper-buttons {
+    display: flex;
+    width: 100%;
 }
 
 .expanded {
