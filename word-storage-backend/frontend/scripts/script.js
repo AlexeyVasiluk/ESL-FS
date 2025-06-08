@@ -415,7 +415,7 @@ if (!document.getElementById('logout-btn')) {
         }
     });
 
-    const container = document.querySelector('.header');
+    const container = document.querySelector('.header-buttons');
     container.appendChild(logoutBtn);
 }
 

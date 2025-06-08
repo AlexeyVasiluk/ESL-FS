@@ -108,6 +108,7 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
     width: 100%;
     text-decoration: underline;
     cursor: pointer;
+    margin-top: 5px;
 }
 
 .words-by-themes-list {
@@ -138,13 +139,15 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
 .rules.active {
     display: block;
     position: absolute;
-    margin-top: 50px;
-    right: 0;
-    top: 0;
+    left: 10px;
+    top: 165px;
     z-index: 1;
-    width: 30%;
+    width: 50%;
     background: lightgray;
     text-align: center;
+    line-height: 25px;
+    text-transform: none;
+    border: 1px dashed black;
 }
 
 .game.words-button.active {
@@ -296,6 +299,11 @@ hr {
     text-align: center;
 }
 
+.header-buttons {
+    position: absolute;
+    right: 0;
+}
+
 .accordion-header {
     cursor: pointer;
     color: #000000;
@@ -304,7 +312,6 @@ hr {
     display: block;
     text-transform: uppercase;
     padding: 5px 5px 5px 0;
-    text-decoration: underline;
 }
 
 .accordion-section {
@@ -313,8 +320,7 @@ hr {
 }
 
 .accordion-section.active .accordion-header {
-    background-color: #bbb4b4;
-    color: #333;
+    color: #000000;
     font-weight: bold;
     display: block;
 }
@@ -364,33 +370,17 @@ hr {
 }
 
 .words-button {
-    /*background: #ffffff;*/
     cursor: pointer;
     margin: 10px 20px 10px 0;
 }
 
 button {
-    /*background-color: transparent;*/
-    /*color: black;*/
-    /*border: 1px solid black;*/
-    /*min-height: 40px;*/
-    /*width: 200px;*/
-    /*display: inline-block;*/
-    /*font-size: 20px;*/
-    /*font-weight: bold;*/
-    /*text-decoration: none;*/
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
-    /*margin-top: 10px;*/
-    /*margin-bottom: 10px;*/
 }
 
 #logout-btn {
     height: 40px;
-    min-width: 100px;
-    position: absolute;
-    top: 55px;
-    left: 150px;
 }
 
 #clear-progress {
@@ -403,7 +393,7 @@ button {
 }
 
 button:hover {
-    background-color: #333;
+    background-color: #000000;
     color: white;
 }
 
@@ -492,13 +482,7 @@ button:active {
 }
 
 #language-switcher {
-    text-align: left;
-    cursor: pointer;
-    width: fit-content;
-    order: 2;
-    position: absolute;
-    right: 110px;
-    top: 10px;
+    height: 40px;
 }
 
 .expanded {
