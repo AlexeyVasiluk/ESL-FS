@@ -22,16 +22,17 @@
         <option value="uk">Українська</option>
         <option value="es">Español</option>
     </select>
-    <div class="help" data-i18n="help">HELP</div>
-    <div id="rules" class="rules nonactive" data-i18n="rules">
-        Вибери набір слів, наприклад - ДІЄСЛОВА (зеленим відображено к-ть вивчених слів, червоним - що ще залишилися для вивчення). Правила максимально прості: поруч з українським словом вписуй англійський переклад і тисни ENTER або клавішу "Перевірити" для перевірки. Якщо ти ввів неправильну відповідь - система підкаже тобі правильне слово і запропонує скласти речення з використанням цього слова в контексті для кращого запам'ятовування. Якщо втомився чи хочеш обрати іншу групу слів - тисни "Закінчити Гру". Твій прогрес буде збережено і ти зможеш повернутися до нього пізніше.
-    </div>
+
 </div>
 
 <div class="words-by-themes-list">
     <div id="vocabulary-section" class="accordion-section active">
         <div class="accordion-header" id="vocabulary-header" data-i18n="wordsByTheme">Words by themes</div>
         <div class="accordion-content expanded" id="vocabulary-content">
+            <div class="help" data-i18n="help">HELP</div>
+            <div id="rules" class="rules nonactive" data-i18n="rules">
+                Вибери набір слів, наприклад - ДІЄСЛОВА (зеленим відображено к-ть вивчених слів, червоним - що ще залишилися для вивчення). Правила максимально прості: поруч з українським словом вписуй англійський переклад і тисни ENTER або клавішу "Перевірити" для перевірки. Якщо ти ввів неправильну відповідь - система підкаже тобі правильне слово і запропонує скласти речення з використанням цього слова в контексті для кращого запам'ятовування. Якщо втомився чи хочеш обрати іншу групу слів - тисни "Закінчити Гру". Твій прогрес буде збережено і ти зможеш повернутися до нього пізніше.
+            </div>
             <a id="nouns_food" class="words-button">Food</a>
             <a id="nouns_house" class="words-button">House</a>
             <a id="nouns_family" class="words-button">Family</a>
@@ -126,7 +127,7 @@
             <div id="makeSentence" class="hide" data-i18n="makeSentence">Складіть речення з набору слів:</div>
             <div id="originalWords"></div>
             <div id="userVersion"></div>
-            <div id="errorInSentence" class="hide" style="color: red; width: 100%;" data-i18n="wrongAnswer">Нажаль невірно, вірна відповідь нижче.</div>
+            <div id="errorInSentence" class="hide" style="color: red; width: 100%;" data-i18n="wrongAnswer">Нажаль невірно, вірна відповідь вище.</div>
         </div>
 
         <div id="winModal" class="modal hidemodal">

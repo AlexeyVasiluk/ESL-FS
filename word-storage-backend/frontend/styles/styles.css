@@ -104,14 +104,10 @@ input:not([type=submit]):not([type=button]):not([type=number]):not([type=checkbo
 }
 
 .help {
-    text-align: left;
-    cursor: pointer;
-    width: fit-content;
-    order: 2;
-    position: absolute;
-    right: 10px;
-    top: 10px;
+    display: flex;
+    width: 100%;
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .words-by-themes-list {
@@ -308,6 +304,7 @@ hr {
     display: block;
     text-transform: uppercase;
     padding: 5px 5px 5px 0;
+    text-decoration: underline;
 }
 
 .accordion-section {
@@ -392,8 +389,8 @@ button {
     height: 40px;
     min-width: 100px;
     position: absolute;
-    right: 10px;
-    top: 50px;
+    top: 55px;
+    left: 150px;
 }
 
 #clear-progress {
@@ -402,7 +399,7 @@ button {
     position: absolute;
     left: 10px;
     top: 55px;
-    background: lightcoral;
+    background: red;
 }
 
 button:hover {
