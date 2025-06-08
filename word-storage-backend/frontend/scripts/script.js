@@ -235,46 +235,16 @@ const saveProgress = async (wordId, guessed) => {
 };
 
 const showResults = () => {
-    // resultText = '';
-    // correctCountElement.textContent = `${correctCount}`;
-    // wrongCountElement.textContent = `${wrongCount}`;
-    //
-    // for (let i = 0; i < answerLog.length; i++) {
-    //     const answer = answerLog[i];
-    //     const lastAnswer = answerLog[answerLog.length - 1];
-    //
-    //     if (!lastAnswer.correct) {
-    //         handleIncorrectAnswer(answer);
-    //     } else {
-    //         handleCorrectAnswer(answer);
-    //     }
-    // }
-    //
-    // statsElement.innerHTML = resultText;
-
-//     ------------------------------------------
-
-    // оновлюємо лічильники
     correctCountElement.textContent = `${correctCount}`;
     wrongCountElement.textContent = `${wrongCount}`;
-
-    // беремо лише останню відповідь
     const lastAnswer = answerLog[answerLog.length - 1];
-
-    // чистимо попередній результат
     resultText = '';
-
     if (!lastAnswer.correct) {
         handleIncorrectAnswer(lastAnswer);
     } else {
         handleCorrectAnswer(lastAnswer);
     }
-
     statsElement.innerHTML = resultText;
-
-
-
-
 };
 
 const handleIncorrectAnswer = (answer) => {
@@ -293,16 +263,6 @@ const handleIncorrectAnswer = (answer) => {
 };
 
 const handleCorrectAnswer = (answer) => {
-    // resultText = `<div class="result-row">
-    //     ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
-    //     <div id="example-sentense-correct">
-    //         <span style="font-weight: bold;"> Example: </span>${answer.examples}
-    //     </div>
-    // </div>`;
-    // emptyWordList();
-    //
-    //-----------------------------
-
     resultText = `
     <div class="result-row">
       ${answer.question} - <span style='font-weight: bold;'>${answer.answer}</span><br>
@@ -311,10 +271,7 @@ const handleCorrectAnswer = (answer) => {
       </div>
     </div>
   `;
-
-    // заплануємо одну-єдину наступну showWord
     emptyWordList();
-
 };
 
 function emptyWordList() {
